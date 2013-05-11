@@ -1,2 +1,4 @@
+#!/bin/bash
 rvm use ruby-1.9.2@veewee-cba --create
 alias veewee="bundle exec veewee"
+command -v bundle || gem install bundler && bundle install
