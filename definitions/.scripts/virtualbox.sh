@@ -17,8 +17,8 @@ if test ! -z ${VBOX_VERSION}; then
 
 	# install dependencies
 	ensure_packages dkms perl make gcc
-	rhel   ensure_packages  kernel-devel-`uname -r`  xorg-x11-server-Xorg
-	debian ensure_packages  linux-headers-`uname -r` xserver-xorg          libdbus-1-3 build-essential
+	rhel   ensure_packages  kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg
+	debian ensure_packages  linux-headers-${KERNEL_VERSION} xserver-xorg          libdbus-1-3 build-essential
 
 	# init
 	TMP_DIR=/tmp/mnt

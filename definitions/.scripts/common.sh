@@ -4,6 +4,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 
 ########## check OS architecture and version ##########
 
+KERNEL_VERSION=`uname -r`
 ARCH=`uname -m`
 
 unset RHEL
@@ -49,6 +50,14 @@ function rhel6() {
 	else
 		return 1
 	fi
+}
+
+function uek() {
+    if (rhel is_package_installed kernel-uek); then
+		$*; return $?
+    else
+        return 1
+    fi
 }
 
 function debian() {
