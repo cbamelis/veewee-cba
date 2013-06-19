@@ -30,7 +30,7 @@ OS_MAJOR_VERSION=`echo ${OS_FULL_VERSION} | cut -d. -f1`
 
 function rhel() {
 	if (test ! -z ${RHEL}); then
-		$*; return $?
+		"$@"; return $?
 	else
 		return 1
 	fi
@@ -38,7 +38,7 @@ function rhel() {
 
 function rhel5() {
 	if (rhel test ${OS_MAJOR_VERSION} -eq 5); then
-		$*; return $?
+		"$@"; return $?
 	else
 		return 1
 	fi
@@ -46,7 +46,7 @@ function rhel5() {
 
 function rhel6() {
 	if (rhel test ${OS_MAJOR_VERSION} -eq 6); then
-		$*; return $?
+		"$@"; return $?
 	else
 		return 1
 	fi
@@ -54,7 +54,7 @@ function rhel6() {
 
 function uek() {
     if (rhel is_package_installed kernel-uek); then
-		$*; return $?
+		"$@"; return $?
     else
         return 1
     fi
@@ -62,7 +62,7 @@ function uek() {
 
 function debian() {
 	if (test ! -z ${DEBIAN}); then
-		$*; return $?
+		"$@"; return $?
 	else
 		return 1
 	fi
@@ -85,14 +85,14 @@ function _install_package() {
 }
 
 function _install_packages() {
-	debian  apt-get -y install $* \
-	|| rhel yum     -y install $*
+	debian  apt-get -y install "$@" \
+	|| rhel yum     -y install "$@"
 	return $?
 }
 
 function _remove_packages() {
-	debian  apt-get -y purge  $* \
-	|| rhel yum     -y remove $*
+	debian  apt-get -y purge  "$@" \
+	|| rhel yum     -y remove "$@"
 	return $?
 }
 
