@@ -1,5 +1,8 @@
 #!/bin/bash
-rvm use ruby-1.9.2@veewee-cba --create
+RUBY_VERSION=1.9.2
+GEMSET=veewee-cba
+rvm use ${RUBY_VERSION} || rvm install ${RUBY_VERSION}
+rvm use ${RUBY_VERSION}@${GEMSET} --create
 alias veewee="bundle exec veewee"
-command -v bundle || gem install bundler
+bundle || gem install bundler
 bundle check || bundle install
