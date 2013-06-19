@@ -13,5 +13,5 @@ rhel http_package_install http://packages.sw.be/rpmforge-release rpmforge-releas
 
 debian    ensure_packages  htop wget curl sux man-db vim \
 || rhel5  ensure_packages  htop wget curl man vim-enhanced \
-|| rhel6  ensure_packages  htop wget curl man vim
+|| rhel6  ensure_packages  htop wget curl man vim redhat-lsb-core
 
