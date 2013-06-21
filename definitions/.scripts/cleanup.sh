@@ -15,11 +15,12 @@ rhel   remove_packages kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg glib
 uek rpm -qa | grep ^kernel | grep -v ^kernel-uek | xargs yum remove -y
 
 # remove packages we don't need any more
-rhel ensure_packages yum-utils \
-	&& package-cleanup -y --oldkernels --count=1 \
-	&& package-cleanup --leaves --exclude-bin | grep -v yum | xargs yum remove -y
-#rhel yum -y clean all
+rhel ensure_packages yum-utils
+rhel package-cleanup -y --oldkernels --count=1
+#rhel package-cleanup --leaves --exclude-bin | grep -v yum | xargs yum remove -y
 
+# clean package cache
+rhel yum -y clean all
 debian apt-get -y autoremove
 debian apt-get -y clean
 
