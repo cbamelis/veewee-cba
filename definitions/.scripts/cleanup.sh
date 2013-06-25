@@ -7,7 +7,7 @@ rhel find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /HWADDR
 rhel find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /UUID/d {} \;
 
 # remove GCC and other build related packages
-remove_packages make gcc dkms
+#remove_packages make gcc dkms  # don't remove these packages: redhat-lsb-core is dependent on these
 debian remove_packages linux-headers-${KERNEL_VERSION} xserver-xorg         build-essential
 rhel   remove_packages kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg glibc-devel glibc-headers kernel-headers mesa-libGL
 
