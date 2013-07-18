@@ -2,4 +2,5 @@ Gemfile.lock
 *.box
 iso
 iso/
+bin/
 boxes/

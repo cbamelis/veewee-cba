@@ -29,6 +29,7 @@ LINUX = {
     "#{scripts}/common.sh",
     "#{scripts}/keyboard-be.sh",
     "#{scripts}/puppet.sh",
+    "#{scripts}/chef.sh",
     "#{scripts}/virtualbox.sh",
     "#{scripts}/cleanup.sh",
     "#{scripts}/zerodisk.sh",
