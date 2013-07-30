@@ -11,7 +11,7 @@ rhel http_package_install http://packages.sw.be/rpmforge-release rpmforge-releas
 
 ########## install base tools ##########
 
-debian    ensure_packages  htop wget curl sux man-db rsync vim \
-|| rhel5  ensure_packages  htop wget curl man rsync vim-enhanced \
-|| rhel6  ensure_packages  htop wget curl man rsync vim redhat-lsb-core
+debian    ensure_packages  htop wget curl rsync dkms sux man-db vim \
+|| rhel5  ensure_packages  htop wget curl rsync dkms man vim-enhanced \
+|| rhel6  ensure_packages  htop wget curl rsync dkms man vim
 
