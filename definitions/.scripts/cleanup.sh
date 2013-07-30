@@ -8,15 +8,15 @@ rhel find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /UUID/d
 
 # remove GCC and other build related packages
 #remove_packages make gcc dkms  # don't remove these packages: redhat-lsb-core is dependent on these
-debian remove_packages linux-headers-${KERNEL_VERSION} xserver-xorg         build-essential
-rhel   remove_packages kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg glibc-devel glibc-headers kernel-headers mesa-libGL
+#debian remove_packages linux-headers-${KERNEL_VERSION} xserver-xorg         build-essential
+#rhel   remove_packages kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg glibc-devel glibc-headers kernel-headers mesa-libGL
 
 # if an Oracle UEK kernel is installed: remove all other kernels
 uek rpm -qa | grep ^kernel | grep -v ^kernel-uek | xargs yum remove -y
 
 # remove packages we don't need any more
 rhel ensure_packages yum-utils
-#rhel package-cleanup -y --oldkernels --count=1
+rhel package-cleanup -y --oldkernels --count=1
 #rhel package-cleanup --leaves --exclude-bin | grep -v yum | xargs yum remove -y
 
 # clean package cache
