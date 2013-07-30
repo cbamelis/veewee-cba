@@ -8,12 +8,13 @@ ensure_packages dmidecode
 
 # detect virtualbox version
 unset VBOX_VERSION
-dmidecode | grep -i virtualbox 2>&1 >/dev/null \
+VBOX_VERSION=`cat /home/veewee/.vbox_version`
+test -z ${VBOX_VERSION} && dmidecode | grep -i virtualbox 2>&1 >/dev/null \
 	&& VBOX_VERSION=`dmidecode | grep -i vboxver | cut -d_ -f2` \
-	&& echo "Detected VirtualBox ${VBOX_VERSION}"
 
 # install guest additions when VirtualBox is detected
 if test ! -z ${VBOX_VERSION}; then
+    echo "Detected VirtualBox ${VBOX_VERSION}"
 
 	# install dependencies
 	ensure_packages dkms perl make gcc
@@ -33,5 +34,7 @@ if test ! -z ${VBOX_VERSION}; then
 	# clean up
 	umount -f ${MNT_DIR}
 	rm -rf ${TMP_DIR}
+else
+    echo "Could not detect VirtualBox version!"
 fi
 
