@@ -26,6 +26,27 @@ fi
 OS_MAJOR_VERSION=`echo ${OS_FULL_VERSION} | cut -d. -f1`
 
 
+########## hypervisor functions ##########
+
+function ifvbox() {
+    ensure_packages dmidecode
+    if (dmidecode | grep -i 'vboxver'); then
+		"$@"; return $?
+    else
+        return 1
+    fi
+}
+
+function ifkvm() {
+    ensure_packages dmidecode
+    if (dmidecode | grep 'Manufacturer: Bochs'); then
+		"$@"; return $?
+    else
+        return 1
+    fi
+}
+
+
 ########## functions hiding OS differences ##########
 
 function rhel() {
