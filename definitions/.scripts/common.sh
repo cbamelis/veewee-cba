@@ -9,12 +9,17 @@ ARCH=`uname -m`
 
 unset RHEL
 unset DEBIAN
+unset UBUNTU
 
 if test -e /etc/debian_version; then
 	DEBIAN=1
 	OS_DESCRIPTION=`lsb_release -sd`
 	OS_FULL_VERSION=`lsb_release -sr`
 	OS_CODE_NAME=`lsb_release -sc`
+	OS_DISTRIBUTOR_ID=`lsb_release -si`
+	if [ $OS_DISTRIBUTOR_ID = 'Ubuntu' ]; then
+	  UBUNTU=1
+	fi
 fi
 
 test -e /etc/centos-release && RELEASE_FILE=/etc/centos-release || RELEASE_FILE=/etc/redhat-release
@@ -83,6 +88,14 @@ function uek() {
 
 function debian() {
 	if (test ! -z ${DEBIAN}); then
+		"$@"; return $?
+	else
+		return 1
+	fi
+}
+
+function ubuntu() {
+	if (test ! -z ${UBUNTU}); then
 		"$@"; return $?
 	else
 		return 1
