@@ -9,5 +9,5 @@ debian  http_package_install  http://apt.puppetlabs.com                         
 
 ########## install puppet ##########
 
-ensure_packages puppet facter
+ensure_packages puppet facter rubygems
 
