@@ -23,7 +23,7 @@ UBUNTU_1204_DESKTOP = LINUX_FAMILY_DEBIAN.merge(
   ],
   :os_type_id => 'Debian_64',
   :iso_file => "Ubuntu/#{iso}",
-  #:iso_src => "http://mirror.as35701.net/debian-cd/7.1.0/amd64/iso-cd/#{iso}",
-  #:iso_md5 => "80f498a1f9daa76bc911ae13692e4495"
+  :iso_src => "http://releases.ubuntu.com/precise/#{iso}",
+  :iso_md5 => "cff39ccc589c7797aacce9efee7b5f93"
 )
 
