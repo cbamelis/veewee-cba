@@ -2,9 +2,11 @@
 source common.sh
 
 # zero out the free space to save space in the final image
-echo "Blanking free space..."
-dd if=/dev/zero of=/EMPTY bs=10M
-rm -f /EMPTY
+for ROOT in $(cat /proc/mounts | grep ext4 | cut -d" " -f 2); do
+    echo "Blanking free space on ${ROOT}..."
+    dd if=/dev/zero of=${ROOT}/EMPTY bs=10M
+    rm -f ${ROOT}/EMPTY
+done
 
 # find swap partition and remember UUID
 SWAPPART=`cat /proc/swaps | tail -n1 | awk '{print $1}'`
