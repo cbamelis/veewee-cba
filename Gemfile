@@ -1,3 +1,3 @@
 source "https://rubygems.org"
-gem "veewee", :git => 'https://github.com/jedi4ever/veewee.git'
+gem "veewee", :git => 'https://github.com/jedi4ever/veewee.git', :tag => "v0.3.10"
 gem "ruby-libvirt"
