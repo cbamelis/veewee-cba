@@ -1,6 +1,6 @@
 #!/bin/bash
 RUBY_VERSION=1.9.3
-test -Z ${JOB_NAME} && JOB_NAME=veewee-cba
+test -Z ${JENKINS_URL} && JOB_NAME=veewee-cba
 GEMSET=${JOB_NAME}
 rvm use ${RUBY_VERSION} || rvm install ${RUBY_VERSION}
 rvm use ${RUBY_VERSION}@${GEMSET} --create
