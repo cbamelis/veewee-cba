@@ -31,7 +31,8 @@ rm -rf /home/${VEEWEE_USER}/*.iso
 #sed -i 's/^veewee.*$//' /etc/sudoers
 
 # remove not required files
-rm -rf /tmp/*
+find /tmp ! -fstype vboxsf -type f -print0 | xargs -0 rm
+find /tmp ! -fstype vboxsf -type d -empty -delete
 find /var/log -iname "*.log" | xargs rm -f
 find / -iname ".bash_history" | xargs rm -f
 
