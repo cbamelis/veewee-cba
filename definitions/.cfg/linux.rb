@@ -3,7 +3,7 @@ scripts = "/../.scripts"
 LINUX = {
   :cpu_count => "1",
   :memory_size=> "1024",
-  :disk_size => "30720",
+  :disk_size => "1048576",
   :disk_format => "VDI",
   :hostiocache => "on",
 
