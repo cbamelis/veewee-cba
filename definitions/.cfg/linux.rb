@@ -1,9 +1,9 @@
-scripts = "/../.scripts"
+scripts = "../.scripts"
 
 LINUX = {
-  :cpu_count => "1",
-  :memory_size=> "1024",
-  :disk_size => "1048576",
+  :cpu_count => "1",        # 1 CPU
+  :memory_size=> "1024",    # 1 GB memory
+  :disk_size => "1048576",  # 1 TB HDD size
   :disk_format => "VDI",
   :hostiocache => "on",
 
@@ -25,14 +25,13 @@ LINUX = {
 
   :postinstall_files => [
     "#{scripts}/common.sh",
-    "#{scripts}/keyboard-be.sh",
-    #"#{scripts}/base.sh",
+    "#{scripts}/puppet.sh",
+    #"#{scripts}/chef.sh",
     "#{scripts}/vagrant.sh",
-    "#{scripts}/puppet-tt.sh",
-    "#{scripts}/chef.sh",
+    #"#{scripts}/keyboard-be.sh",
     "#{scripts}/virtualbox.sh",
+    #"#{scripts}/base.sh",
     "#{scripts}/cleanup.sh",
-    "#{scripts}/zerodisk.sh",
     #"#{scripts}/shutdown.sh",
   ],
 }
