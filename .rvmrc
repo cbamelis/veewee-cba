@@ -1,9 +1,9 @@
 #!/bin/bash
-RUBY_VERSION=1.9.3
+RUBY_VERSION=2.1.5
 test -z ${JENKINS_URL} && JOB_NAME=veewee-cba
 GEMSET=${JOB_NAME}
 rvm use ${RUBY_VERSION} || rvm install ${RUBY_VERSION}
 rvm use ${RUBY_VERSION}@${GEMSET} --create
 bundle || gem install bundler
-bundle check || bundle install --binstubs
+bundle check || bundle install
 export PATH=./bin:${PATH}
