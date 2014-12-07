@@ -1,0 +1,87 @@
+{
+  "description": "CBA Debian 7 packer test",
+
+  "variables": {
+    "SUDO_USER": "veewee",
+    "OUTPUT_NAME": "debian-7.7.0-amd64",
+    "ISO_FILENAME": "debian-7.7.0-amd64-netinst.iso",
+    "ISO_MD5": "0b31bccccb048d20b551f70830bb7ad0",
+    "ISO_PREFIX_LOCAL": "iso/Debian",
+    "ISO_PREFIX_URL": "http://mirror.as35701.net/debian-cd/7.7.0/amd64/iso-cd"
+  },
+
+  "builders": [
+    {
+      "type": "qemu",
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/debian7.cfg <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "netcfg/get_hostname={{.Name}} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "2s",
+      "disk_size": 20480,
+      "http_directory": "../kickstart",
+      "iso_urls": [
+         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
+         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
+       ],
+      "iso_checksum_type": "md5",
+      "iso_checksum": "{{user `ISO_MD5`}}",
+      "ssh_username": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_USER`}}",
+      "ssh_port": 22,
+      "ssh_host_port_min": 2200,
+      "ssh_host_port_max": 2209,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'",
+
+      "headless": false,
+      "accelerator": "kvm",
+      "format": "qcow2",
+      "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
+      "qemuargs": [
+        [ "-m", "1024M" ],
+        [ "--no-acpi", "" ]
+      ]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts/",
+      "destination": "/tmp"
+    },
+    {
+      "type": "shell",
+      "execute_command": "chmod a+x '{{.Path}}'; echo '{{user `SUDO_USER`}}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "inline_shebang": "/bin/bash",
+      "inline": [
+        "cd /tmp",
+        "chmod a+x *.sh",
+         "./vagrant.sh && ./puppet.sh && ./virtualbox.sh && ./cleanup.sh"
+      ]
+    }
+  ],
+
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "compression_level": 9,
+      "output": "boxes/{{user `OUTPUT_NAME`}}-{{.Provider}}.box"
+    }
+  ]
+}
+
