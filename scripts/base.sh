@@ -6,6 +6,7 @@ source common.sh
 EPEL_URL=http://fedora.cu.be/epel/${OS_MAJOR_VERSION}/${ARCH}
 el5 http_package_install ${EPEL_URL} epel-release-5-4.noarch.rpm
 el6 http_package_install ${EPEL_URL} epel-release-6-8.noarch.rpm
+el7 http_package_install ${EPEL_URL} epel-release-7-2.noarch.rpm
 
 el http_package_install http://packages.sw.be/rpmforge-release rpmforge-release-0.5.3-1.el${OS_MAJOR_VERSION}.rf.${ARCH}.rpm
 
