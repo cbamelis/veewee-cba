@@ -2,7 +2,7 @@ scripts = "../.scripts"
 
 LINUX = {
   :cpu_count => "1",        # 1 CPU
-  :memory_size=> "1024",    # 1 GB memory
+  :memory_size=> "512",     # 0.5 GB memory
   :disk_size => "1048576",  # 1 TB HDD size
   :disk_format => "VDI",
   :hostiocache => "on",
