@@ -19,7 +19,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "2s",
-      "disk_size": 8192,
+      "disk_size": 1048576,
       "http_directory": "kickstart",
       "iso_urls": [
          "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
