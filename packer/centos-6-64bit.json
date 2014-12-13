@@ -35,7 +35,7 @@
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "sudo ./shutdown.sh {{user `SUDO_USER`}}",
 
-      "headless": false,
+      "headless": true,
       "accelerator": "kvm",
       "format": "qcow2",
       "disk_cache": "unsafe",
@@ -71,6 +71,7 @@
       "guest_os_type": "RedHat_64",
       "guest_additions_mode": "upload",
       "guest_additions_path": "/tmp/VBoxGuestAdditions.iso",
+      "headless": true,
       "virtualbox_version_file": "/tmp/.vbox_version",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "512"],

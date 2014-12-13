@@ -47,7 +47,7 @@
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'",
 
-      "headless": false,
+      "headless": true,
       "accelerator": "kvm",
       "format": "qcow2",
       "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
