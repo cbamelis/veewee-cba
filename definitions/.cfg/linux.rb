@@ -26,7 +26,7 @@ LINUX = {
   :postinstall_files => [
     "#{scripts}/common.sh",
     "#{scripts}/puppet.sh",
-    #"#{scripts}/chef.sh",
+    "#{scripts}/chef.sh",
     "#{scripts}/vagrant.sh",
     #"#{scripts}/keyboard-be.sh",
     "#{scripts}/virtualbox.sh",
