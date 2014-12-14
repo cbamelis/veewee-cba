@@ -50,6 +50,7 @@
       "guest_os_type": "Debian_64",
       "guest_additions_mode": "upload",
       "guest_additions_path": "/tmp/VBoxGuestAdditions.iso",
+      "headless": true,
       "virtualbox_version_file": "/tmp/.vbox_version",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "1024"],
