@@ -1,5 +1,5 @@
 {
-  "description": "CBA Enterprise Linux template",
+  "description": "Enterprise Linux template",
 
   "variables": {
     "PACKER_CPU": null,
@@ -15,6 +15,7 @@
     "ISO_PREFIX_LOCAL": null,
     "ISO_PREFIX_URL": null,
     
+    "HEADLESS": false,
     "SUDO_USER": "veewee"
   },
 
@@ -43,8 +44,8 @@
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "sudo ./shutdown.sh {{user `SUDO_USER`}}",
 
-      "headless": true,
-      "accelerator": "kvm",
+      "headless": "{{user `HEADLESS`}}",
+      "accelerator": "none",
       "format": "qcow2",
       "disk_cache": "unsafe",
       "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
@@ -80,7 +81,7 @@
       "guest_os_type": "{{user `OS_TYPE`}}",
       "guest_additions_mode": "upload",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "headless": true,
+      "headless": "{{user `HEADLESS`}}",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "{{user `PACKER_MEM`}}"],
