@@ -8,9 +8,7 @@ ensure_packages dmidecode
 
 # detect virtualbox version
 unset VBOX_VERSION
-VBOX_VERSION=`cat /home/veewee/.vbox_version`
-test -z ${VBOX_VERSION} && dmidecode | grep -i virtualbox 2>&1 >/dev/null \
-	&& VBOX_VERSION=`dmidecode | grep -i vboxver | cut -d_ -f2` \
+VBOX_VERSION=`cat .vbox_version`
 
 # install guest additions when VirtualBox is detected
 if test ! -z ${VBOX_VERSION}; then
@@ -30,11 +28,14 @@ if test ! -z ${VBOX_VERSION}; then
 
 	# mount + install guest additions
     mount -o loop ${ISO} ${MNT_DIR} && sh ${EXE}
+    RETVAL=$?
 
 	# clean up
 	umount -f ${MNT_DIR}
 	rm -rf ${TMP_DIR}
 else
     echo "Could not detect VirtualBox version!"
+    RETVAL=0
 fi
+return ${RETVAL}
 
