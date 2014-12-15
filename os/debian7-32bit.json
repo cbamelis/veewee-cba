@@ -1,0 +1,8 @@
+{
+  "OS_TYPE": "Debian",
+  "OUTPUT_NAME": "debian-7-32bit",
+  "ISO_FILENAME": "debian-7.7.0-i386-netinst.iso",
+  "ISO_MD5": "76d512c44a9b7eca53ea2812ad5ac36f",
+  "ISO_PREFIX_LOCAL": "iso/Debian",
+  "ISO_PREFIX_URL": "http://mirror.as35701.net/debian-cd/7.7.0/i386/iso-cd"
+}
