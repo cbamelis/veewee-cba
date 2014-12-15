@@ -37,5 +37,5 @@ else
     echo "Could not detect VirtualBox version!"
     RETVAL=0
 fi
-return ${RETVAL}
+exit ${RETVAL}
 
