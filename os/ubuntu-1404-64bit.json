@@ -1,0 +1,8 @@
+{
+  "OS_TYPE": "Ubuntu_64",
+  "OUTPUT_NAME": "ubuntu-1404-64bit",
+  "ISO_FILENAME": "ubuntu-14.04.1-desktop-amd64.iso",
+  "ISO_MD5": "119cb63b48c9a18f31f417f09655efbd",
+  "ISO_PREFIX_LOCAL": "iso/Ubuntu",
+  "ISO_PREFIX_URL": "http://releases.ubuntu.com/trusty"
+}

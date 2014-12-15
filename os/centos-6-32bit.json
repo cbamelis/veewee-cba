@@ -1,0 +1,8 @@
+{
+  "OS_TYPE": "RedHat",
+  "OUTPUT_NAME": "centos-6-32bit",
+  "ISO_FILENAME": "CentOS-6.6-i386-minimal.iso",
+  "ISO_MD5": "8c14c9a379aa7c7477471938ca06447d",
+  "ISO_PREFIX_LOCAL": "iso/CentOS",
+  "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/6.6/isos/i386"
+}

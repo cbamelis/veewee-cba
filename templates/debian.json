@@ -1,0 +1,141 @@
+{
+  "description": "CBA Debian template",
+
+  "variables": {
+    "PACKER_CPU": null,
+    "PACKER_MEM": null,
+    "PACKER_HDD": null,
+    
+    "PACKER_KICKSTART": null,
+  
+    "OS_TYPE": null,
+    "OUTPUT_NAME": null,
+    "ISO_FILENAME": null,
+    "ISO_MD5": null,
+    "ISO_PREFIX_LOCAL": null,
+    "ISO_PREFIX_URL": null,
+    
+    "SUDO_USER": "veewee"
+  },
+
+  "builders": [
+    {
+      "type": "qemu",
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "netcfg/get_hostname={{.Name}} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "2s",
+      "disk_size": "{{user `PACKER_HDD`}}",
+      "http_directory": "kickstart",
+      "iso_urls": [
+         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
+         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
+       ],
+      "iso_checksum_type": "md5",
+      "iso_checksum": "{{user `ISO_MD5`}}",
+      "ssh_username": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_USER`}}",
+      "ssh_port": 22,
+      "ssh_host_port_min": 2200,
+      "ssh_host_port_max": 2209,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'",
+
+      "headless": true,
+      "accelerator": "kvm",
+      "format": "qcow2",
+      "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
+      "qemuargs": [
+        [ "-m", "{{user `PACKER_MEM`}}M" ]
+      ]
+    },
+
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/debian7.cfg <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "netcfg/get_hostname={{.Name}} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 20480,
+      "http_directory": "kickstart",
+      "iso_urls": [
+         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
+         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
+       ],
+      "iso_checksum_type": "md5",
+      "iso_checksum": "{{user `ISO_MD5`}}",
+      "ssh_username": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_USER`}}",
+      "ssh_port": 22,
+      "ssh_host_port_min": 2210,
+      "ssh_host_port_max": 2219,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'",
+
+      "guest_os_type": "{{user `OS_TYPE`}}",
+      "guest_additions_mode": "upload",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "headless": true,
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{user `PACKER_MEM`}}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{user `PACKER_CPU`}}"]
+      ]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts/",
+      "destination": "."
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -E bash '{{.Path}}'",
+      "inline": [
+        "chmod a+x *.sh",
+        "export PATH=.:${PATH}",
+        "#vagrant.sh && cleanup.sh",
+        "vagrant.sh && puppet.sh && virtualbox.sh && base.sh && cleanup.sh"
+      ]
+    }
+  ],
+
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "compression_level": 9,
+      "output": "boxes/{{user `OUTPUT_NAME`}}-{{.Provider}}.box"
+    }
+  ]
+}
+

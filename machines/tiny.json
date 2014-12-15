@@ -1,0 +1,5 @@
+{
+  "PACKER_CPU": "1",
+  "PACKER_MEM": "256",
+  "PACKER_HDD": "4096"
+}
