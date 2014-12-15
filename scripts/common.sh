@@ -172,7 +172,7 @@ function http_package_install() {
 }
 
 function list_installed_packages() {
-    debian dpkg-query -W
+    debian dpkg-query -W \
     || el  rpm -qa | sort
 }
 
