@@ -8,5 +8,9 @@ el      http_package_install  http://yum.puppetlabs.com/el/${OS_MAJOR_VERSION}/p
 
 ########## install puppet ##########
 
-ensure_packages puppet facter rubygems ruby-augeas
+ensure_packages puppet facter rubygems
+
+# validate by showing installed package versions
+   echo -en 'Puppet version : ' && puppet --version \
+&& echo -en 'Facter version : ' && facter --version
 

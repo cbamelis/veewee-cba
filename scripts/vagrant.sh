@@ -23,3 +23,6 @@ if ! test -f ${KEYFILE}; then
 	&& chown -R ${VAGRANT_USER} ${SSH_FOLDER}/..
 fi
 
+# validate by showing user id
+echo -en 'Vagrant user details : ' && id ${VAGRANT_USER}
+

@@ -15,3 +15,11 @@ el http_package_install http://packages.sw.be/rpmforge-release rpmforge-release-
 debian ensure_packages  htop wget curl rsync dkms sux man-db vim
 el     ensure_packages  htop wget curl rsync dkms man vim-enhanced
 
+# validate by showing installed package versions
+   echo -en 'htop  version : ' && htop  --version | head -1 \
+&& echo -en 'wget  version : ' && wget  --version | head -1 \
+&& echo -en 'curl  version : ' && curl  --version | head -1 \
+&& echo -en 'rsync version : ' && rsync --version | head -1 \
+&& echo -en 'man   version : ' && man   --version | head -1 \
+&& echo -en 'vim   version : ' && vim   --version | head -1
+
