@@ -36,4 +36,5 @@ umount -f ${MNT_DIR}
 rm -rf ${TMP_DIR}
 
 # validate by loading compiled kernel modules
-modprobe vboxadd && modprobe vboxvfs
+modprobe vboxsf && service vboxadd start
+
