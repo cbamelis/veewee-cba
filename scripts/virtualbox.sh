@@ -17,7 +17,7 @@ test -z ${VBOX_VERSION} && exit 0
 echo "Detected VirtualBox ${VBOX_VERSION}"
 
 # install dependencies
-ensure_packages dkms perl make gcc bzip2
+ensure_packages perl make gcc bzip2
 el     ensure_packages  kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg
 debian ensure_packages  linux-headers-${KERNEL_VERSION} xserver-xorg          libdbus-1-3 build-essential
 
@@ -29,7 +29,7 @@ ISO=VBoxGuestAdditions_${VBOX_VERSION}.iso
 mkdir -p ${MNT_DIR}
 
 # mount + install guest additions
-mount -o loop ${ISO} ${MNT_DIR} && sh ${EXE}
+mount -o loop,ro ${ISO} ${MNT_DIR} && sh ${EXE}
 
 # clean up
 umount -f ${MNT_DIR}
