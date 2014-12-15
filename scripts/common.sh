@@ -4,8 +4,9 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 
 ########## check OS architecture and version ##########
 
-KERNEL_VERSION=`uname -r`
-ARCH=`uname -m`
+KERNEL_VERSION=$(uname -r)
+ARCH=$(uname -m)
+test "${ARCH}" != "x86_64" && ARCH='i386'
 
 unset EL
 unset DEBIAN
@@ -13,10 +14,10 @@ unset UBUNTU
 
 if test -e /etc/debian_version; then
 	DEBIAN=1
-	OS_DESCRIPTION=`lsb_release -sd`
-	OS_FULL_VERSION=`lsb_release -sr`
-	OS_CODE_NAME=`lsb_release -sc`
-	OS_DISTRIBUTOR_ID=`lsb_release -si`
+	OS_DESCRIPTION=$(lsb_release -sd)
+	OS_FULL_VERSION=$(lsb_release -sr)
+	OS_CODE_NAME=$(lsb_release -sc)
+	OS_DISTRIBUTOR_ID=$(lsb_release -si)
 	if [ $OS_DISTRIBUTOR_ID = 'Ubuntu' ]; then
 	  UBUNTU=1
 	fi
@@ -25,10 +26,10 @@ fi
 test -e /etc/centos-release && RELEASE_FILE=/etc/centos-release || RELEASE_FILE=/etc/redhat-release
 if test -e ${RELEASE_FILE}; then
 	EL=1
-	OS_FULL_VERSION=`grep -o -E '([[:digit:]]+.[[:digit:]]+)' ${RELEASE_FILE}`
+	OS_FULL_VERSION=$(grep -o -E '([[:digit:]]+.[[:digit:]]+)' ${RELEASE_FILE})
 fi
 
-OS_MAJOR_VERSION=`echo ${OS_FULL_VERSION} | cut -d. -f1`
+OS_MAJOR_VERSION=$(echo ${OS_FULL_VERSION} | cut -d. -f1)
 
 
 ########## hypervisor functions ##########
@@ -180,7 +181,7 @@ function user_add() {
 		&& return $?
 
 	debian ensure_packages perl \
-		&& useradd ${USER_NAME} -g ${USER_GROUP} -p `perl -e "print crypt(\"${USER_NAME}\", \"${USER_PASSWORD}\")"` -m -s /bin/bash \
+		&& useradd ${USER_NAME} -g ${USER_GROUP} -p $(perl -e "print crypt(\"${USER_NAME}\", \"${USER_PASSWORD}\")") -m -s /bin/bash \
 		&& return $?
 
 	return 1
