@@ -171,6 +171,11 @@ function http_package_install() {
 	return 1
 }
 
+function list_installed_packages() {
+    debian dpkg-query -W
+    || el  rpm -qa | sort
+}
+
 function user_add() {
 	local USER_NAME=$1
 	local USER_PASSWORD=$2
