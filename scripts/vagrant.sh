@@ -12,6 +12,9 @@ groupadd ${VAGRANT_GROUP}
 user_add ${VAGRANT_USER} ${VAGRANT_PASSWORD} ${VAGRANT_GROUP}
 sudoers_without_password ${VAGRANT_USER}
 
+# prepare for 'bash init scripts'
+bash_dot_d ${VAGRANT_USER}
+
 # install (insecure!) ssh key for user
 SSH_FOLDER=/home/${VAGRANT_USER}/.ssh
 KEYFILE=${SSH_FOLDER}/authorized_keys

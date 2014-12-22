@@ -196,6 +196,16 @@ function user_add() {
 	return 1
 }
 
+function bash_dot_d() {
+	local USER_NAME=$1
+	test -z ${USER_NAME} && return 1
+	BASH_D=/home/${USER_NAME}/.bash.d
+	BASHRC=/home/${USER_NAME}/.bashrc
+	test -d ${BASH_D} || mkdir -p ${BASH_D}
+    echo -e '#!/bin/bash\nfor F in ${HOME}/.bash.d/*.sh; do source ${F}; done\nunset F' >> ${BASHRC}
+    chown -R ${USER_NAME} ${BASH_D} ${BASHRC}
+}
+
 function sudoers_remove() {
 	local USER_NAME=$1
 	test -z ${USER_NAME} && return 1
