@@ -11,6 +11,7 @@ test "${ARCH}" != "x86_64" && ARCH='i386'
 unset EL
 unset DEBIAN
 unset UBUNTU
+unset TOMTOM
 
 if test -e /etc/debian_version; then
 	DEBIAN=1
@@ -30,6 +31,9 @@ if test -e ${RELEASE_FILE}; then
 fi
 
 OS_MAJOR_VERSION=$(echo ${OS_FULL_VERSION} | cut -d. -f1)
+
+test -d /etc/yum.managedrepos.d && TOMTOM=1
+test -d /etc/yum.repos.d && grep ttg.global /etc/yum.repos.d/*.repo > /dev/null && TOMTOM=1
 
 
 ########## hypervisor functions ##########
