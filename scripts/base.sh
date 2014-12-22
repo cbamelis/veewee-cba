@@ -3,7 +3,7 @@ source common.sh
 
 ########## add useful repositories ##########
 
-if [ test -z "${TOMTOM-}" ]; then
+if [ test "(${TOMTOM})" = "()" ]; then
   EPEL_URL=http://fedora.cu.be/epel/${OS_MAJOR_VERSION}/${ARCH}
   el5 http_package_install ${EPEL_URL} epel-release-5-4.noarch.rpm
   el6 http_package_install ${EPEL_URL} epel-release-6-8.noarch.rpm
