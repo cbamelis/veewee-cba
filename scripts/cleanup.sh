@@ -12,7 +12,7 @@ el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /UUID/d {
 el   remove_packages kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg glibc-devel glibc-headers kernel-headers mesa-libGL
 
 # if an Oracle UEK kernel is installed: remove all other kernels
-uek rpm -qa | grep ^kernel | grep -v ^kernel-uek | xargs yum remove -y
+uek rpm -qa | uek grep ^kernel | uek grep -v ^kernel-uek | uek xargs yum remove -y
 
 # remove packages we don't need any more
 el ensure_packages yum-utils
@@ -38,6 +38,9 @@ find /tmp ! -fstype vboxsf -type f -print0 | xargs -0 rm
 find /tmp ! -fstype vboxsf -type d -empty -delete
 test -d /tmp || mkdir /tmp
 chmod 0777 /tmp
+
+# remove dummy logical volume
+debian lvremove -f /dev/vg/lv_autofill
 
 # list installed packages
 list_installed_packages

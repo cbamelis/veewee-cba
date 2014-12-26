@@ -3,9 +3,6 @@ source common.sh
 
 ########## VirtualBox guest additions ##########
 
-# install dependencies
-ensure_packages dmidecode
-
 # detect virtualbox version
 unset VBOX_VERSION
 VBOX_VERSION=`cat .vbox_version`
@@ -15,6 +12,9 @@ test -z ${VBOX_VERSION} && exit 0
 
 # install guest additions when VirtualBox is detected
 echo "Detected VirtualBox ${VBOX_VERSION}"
+
+# The debian netboot installs the VirtualBox support (old) so we have to remove it
+debian aptitude -y purge $(dpkg-query -W "virtualbox*" | cut -f 1)
 
 # install dependencies
 ensure_packages perl make gcc bzip2
