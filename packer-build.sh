@@ -117,6 +117,7 @@ else
 fi
 
 # verify parameter os
+VAGRANT_BOX_NAME=${OS}
 test -f ${OS} || OS=${PATH_OS}/${OS}.json
 test -f ${OS} || help_os "Unable to find the given operating_system (\"${OS}\")" || exit -1
 
@@ -136,5 +137,5 @@ echo ${CMD}
 ${CMD}
 
 # vagrant add box
-[ $? -eq 0 ] && [ ! -z ${JOB_NAME} ] && vagrant box add -f --name ${OS} ./boxes/${JOB_NAME}.box
+[ $? -eq 0 ] && [ ! -z ${JOB_NAME} ] && vagrant box add -f --name ${VAGRANT_BOX_NAME} ./boxes/${JOB_NAME}.box
 
