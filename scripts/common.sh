@@ -118,8 +118,8 @@ function ubuntu() {
 function is_package_installed() {
 	local PKG_NAME=$1
 	test -z ${PKG_NAME} && return 1
-	debian dpkg-query -W -f='${Status}\n' ${PKG_NAME} | grep -v "not-installed" 2>&1 > /dev/null \
-	|| el  rpm -q ${PKG_NAME} 2>&1 > /dev/null
+	debian dpkg-query -W -f='${Status}\n' ${PKG_NAME} | grep -v "not-installed" > /dev/null 2>&1 \
+	|| el  rpm -q ${PKG_NAME} > /dev/null 2>&1
 	return $?
 }
 
