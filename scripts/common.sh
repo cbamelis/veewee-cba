@@ -32,8 +32,8 @@ fi
 
 OS_MAJOR_VERSION=$(echo ${OS_FULL_VERSION} | cut -d. -f1)
 
-test -d /etc/yum.managedrepos.d && TOMTOM=1
 test -d /etc/yum.repos.d && grep ttg.global /etc/yum.repos.d/*.repo > /dev/null && TOMTOM=1
+test -d /etc/yum.managedrepos.d && grep flatns.net /etc/yum.managedrepos.d/*.repo > /dev/null && TOMTOM=1
 
 
 ########## hypervisor functions ##########
