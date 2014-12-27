@@ -1,5 +1,5 @@
 {
-  "description": "Debian template",
+  "description": "Debian packer template",
 
   "variables": {
     "PACKER_CPU": null,

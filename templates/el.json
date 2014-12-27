@@ -1,5 +1,5 @@
 {
-  "description": "Enterprise Linux template",
+  "description": "Enterprise Linux (RHEL, CentOS, ...) packer template",
 
   "variables": {
     "PACKER_CPU": null,

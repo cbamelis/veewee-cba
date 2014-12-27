@@ -10,9 +10,9 @@ function help_templates() {
   local MSG=$1
   echo -e "${MSG}"
   for FILE in ${PATH_JSON}/*.json; do
-    FILE_CONTENT=$(cat ${FILE} | grep Description)
+    FILE_CONTENT=$(cat ${FILE} | grep -i description | cut -d ":" -f 2 | sed 's/"//g')
     printf "    %-40s" ${FILE}
-    echo ${FILE_CONTENT}
+    echo ${FILE_CONTENT%\,}
   done
   return 1
 }
@@ -43,9 +43,9 @@ function help_os() {
   local MSG=$1
   echo -e "${MSG}"
   for FILE in ${PATH_OS}/*.json; do
-    FILE_CONTENT=$(cat ${FILE} | grep "ISO_FILENAME" | cut -d ":" -f 2)
+    FILE_CONTENT=$(cat ${FILE} | grep "ISO_FILENAME" | sed 's/"//g' | sed 's/^\w+//')
     printf "    %-40s" ${FILE}
-    echo ${FILE_CONTENT}
+    echo "# ${FILE_CONTENT%\,}"
   done
   return 1
 }
@@ -71,8 +71,8 @@ function help() {
   echo ""
   help_templates "\n  <packer_template> is a JSON packer template; currently supported:"
   help_machines  "\n  <machine_type> is a JSON file with hardware description; currently supported:"
-  help_kickstart "\n  <kickstart> is a kickstart/preseed file containing all answers for unnattended OS installation; currently supported:"
-  help_os        "\n  <os> is a JSON file with Operating System description; currently supported:"
+  help_kickstart "\n  <kickstart> is a kickstart/preseed file containing all answers for unattended OS installation; currently supported:"
+  help_os        "\n  <operating_system> is a JSON file with Operating System description; currently supported:"
   help_hyperv    "\n  <hypervisor> is the name of the hypervisor (packer builder) to use; currently supported:"
   echo ""
   exit -1
