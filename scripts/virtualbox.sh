@@ -13,9 +13,6 @@ test -z ${VBOX_VERSION} && exit 0
 # install guest additions when VirtualBox is detected
 echo "Detected VirtualBox ${VBOX_VERSION}"
 
-# The debian netboot installs the VirtualBox support (old) so we have to remove it
-debian aptitude -y purge $(dpkg-query -W "virtualbox*" | cut -f 1)
-
 # install dependencies
 ensure_packages perl make gcc bzip2
 el     ensure_packages  kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg
@@ -35,6 +32,6 @@ mount -o loop,ro ${ISO} ${MNT_DIR} && sh ${EXE}
 umount -f ${MNT_DIR}
 rm -rf ${TMP_DIR}
 
-# validate by loading compiled kernel modules
-modprobe vboxsf && service vboxadd start
+# validate by starting service
+service vboxadd start
 
