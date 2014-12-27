@@ -5,9 +5,13 @@
     "PACKER_CPU": null,
     "PACKER_MEM": null,
     "PACKER_HDD": null,
-    
+
     "PACKER_KICKSTART": null,
-  
+
+    "META_NAME": "{{env `JOB_NAME`}}",
+    "META_VERSION": "{{env `BUILD_NUMBER`}}",
+    "META_URL": "{{env `BUILD_URL`}}",
+
     "OS_TYPE": null,
     "OUTPUT_NAME": null,
     "ISO_FILENAME": null,
@@ -82,6 +86,11 @@
         ["modifyvm", "{{.Name}}", "--memory", "{{user `PACKER_MEM`}}"],
         ["modifyvm", "{{.Name}}", "--cpus", "{{user `PACKER_CPU`}}"]
       ],
+      "export_opts": [
+         "--product", "{{user `META_NAME`}}", 
+         "--producturl", "{{user `META_URL`}}", 
+         "--version", "{{user `META_VERSION`}}"
+      ],
 
       "iso_interface": "sata",
       "iso_urls": [
@@ -147,6 +156,7 @@
     {
       "type": "vagrant",
       "compression_level": 9,
+      "keep_input_artifact": true,
       "output": "boxes/{{user `OUTPUT_NAME`}}-{{.Provider}}.box"
     }
   ]
