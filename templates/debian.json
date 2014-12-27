@@ -87,8 +87,9 @@
         ["modifyvm", "{{.Name}}", "--cpus", "{{user `PACKER_CPU`}}"]
       ],
       "export_opts": [
-         "--product", "{{user `META_NAME`}}", 
-         "--producturl", "{{user `META_URL`}}", 
+         "--vsys", "0",
+         "--product", "{{user `META_NAME`}}",
+         "--producturl", "{{user `META_URL`}}",
          "--version", "{{user `META_VERSION`}}"
       ],
 
