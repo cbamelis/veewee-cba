@@ -22,39 +22,6 @@
   "builders": [
     {
       "type": "qemu",
-      "boot_command": [
-        "<esc><wait>",
-        "install <wait>",
-        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} <wait>",
-        "debian-installer=en_US <wait>",
-        "auto <wait>",
-        "locale=en_US <wait>",
-        "kbd-chooser/method=us <wait>",
-        "netcfg/get_hostname={{.Name}} <wait>",
-        "netcfg/get_domain=vagrantup.com <wait>",
-        "fb=false <wait>",
-        "debconf/frontend=noninteractive <wait>",
-        "console-setup/ask_detect=false <wait>",
-        "console-keymaps-at/keymap=us <wait>",
-        "keyboard-configuration/xkb-keymap=us <wait>",
-        "<enter><wait>"
-      ],
-      "boot_wait": "2s",
-      "disk_size": "{{user `PACKER_HDD`}}",
-      "http_directory": "kickstart",
-      "iso_urls": [
-         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
-         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
-       ],
-      "iso_checksum_type": "md5",
-      "iso_checksum": "{{user `ISO_MD5`}}",
-      "ssh_username": "{{user `SUDO_USER`}}",
-      "ssh_password": "{{user `SUDO_USER`}}",
-      "ssh_port": 22,
-      "ssh_host_port_min": 2200,
-      "ssh_host_port_max": 2209,
-      "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'",
 
       "headless": "{{user `HEADLESS`}}",
       "accelerator": "none",
@@ -62,11 +29,19 @@
       "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
       "qemuargs": [
         [ "-m", "{{user `PACKER_MEM`}}M" ]
-      ]
-    },
+      ],
 
-    {
-      "type": "virtualbox-iso",
+      "iso_urls": [
+         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
+         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
+       ],
+      "iso_checksum_type": "md5",
+      "iso_checksum": "{{user `ISO_MD5`}}",
+
+      "disk_size": "{{user `PACKER_HDD`}}",
+
+      "http_directory": "kickstart",
+      "boot_wait": "2s",
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
@@ -84,22 +59,19 @@
         "keyboard-configuration/xkb-keymap=us <wait>",
         "<enter><wait>"
       ],
-      "boot_wait": "5s",
-      "disk_size": 20480,
-      "http_directory": "kickstart",
-      "iso_urls": [
-         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
-         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
-       ],
-      "iso_checksum_type": "md5",
-      "iso_checksum": "{{user `ISO_MD5`}}",
+
       "ssh_username": "{{user `SUDO_USER`}}",
       "ssh_password": "{{user `SUDO_USER`}}",
       "ssh_port": 22,
-      "ssh_host_port_min": 2210,
-      "ssh_host_port_max": 2219,
+      "ssh_host_port_min": 2200,
+      "ssh_host_port_max": 2209,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'",
+
+      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'"
+    },
+
+    {
+      "type": "virtualbox-iso",
 
       "guest_os_type": "{{user `OS_TYPE`}}",
       "guest_additions_mode": "upload",
@@ -109,7 +81,47 @@
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "{{user `PACKER_MEM`}}"],
         ["modifyvm", "{{.Name}}", "--cpus", "{{user `PACKER_CPU`}}"]
-      ]
+      ],
+
+      "iso_interface": "sata",
+      "iso_urls": [
+         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
+         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
+       ],
+      "iso_checksum_type": "md5",
+      "iso_checksum": "{{user `ISO_MD5`}}",
+
+      "hard_drive_interface": "sata",
+      "disk_size": "{{user `PACKER_HDD`}}",
+
+      "http_directory": "kickstart",
+      "boot_wait": "4s",
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "netcfg/get_hostname={{.Name}} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "<enter><wait>"
+      ],
+
+      "ssh_username": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_USER`}}",
+      "ssh_port": 22,
+      "ssh_host_port_min": 2210,
+      "ssh_host_port_max": 2219,
+      "ssh_wait_timeout": "10000s",
+
+      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'"
     }
   ],
 
