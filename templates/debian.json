@@ -183,7 +183,7 @@
         "chmod a+x *.sh",
         "export PATH=.:${PATH}",
         "#vagrant.sh && cleanup.sh",
-        "vagrant.sh && puppet.sh && vmware.sh && virtualbox.sh && base.sh && cleanup.sh"
+        "vagrant.sh && puppet.sh && base.sh && vmware.sh && virtualbox.sh && cleanup.sh"
       ]
     }
   ],

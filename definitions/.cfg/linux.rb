@@ -25,12 +25,13 @@ LINUX = {
 
   :postinstall_files => [
     "#{scripts}/common.sh",
+    "#{scripts}/vagrant.sh",
     "#{scripts}/puppet.sh",
     #"#{scripts}/chef.sh",
-    "#{scripts}/vagrant.sh",
+    "#{scripts}/base.sh",
     #"#{scripts}/keyboard-be.sh",
+    "#{scripts}/vmware.sh",
     "#{scripts}/virtualbox.sh",
-    #"#{scripts}/base.sh",
     "#{scripts}/cleanup.sh",
     #"#{scripts}/shutdown.sh",
   ],

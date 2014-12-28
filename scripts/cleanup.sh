@@ -68,5 +68,5 @@ function zeroDisk() {
   sed -i "${UUID_UPDATE}" /etc/fstab
 }
 
-ifkvm exit 0
+#ifkvm exit 0
 zeroDisk

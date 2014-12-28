@@ -3,17 +3,14 @@ source common.sh
 
 ########## VMWare tools ##########
 
+# exit when not detected
+ifvmware echo "Detected VMWare" || exit 0
+
 # init
 TMP_DIR=/tmp/mnt
 MNT_DIR=${TMP_DIR}/cdrom
 EXE=${TMP_DIR}/vmware-tools-distrib/vmware-install.pl
 ISO=vmware-tools.iso
-
-# exit when not detected
-test ! -f ${ISO} && exit 0
-
-# install when detected
-echo "Detected VMWare tools"
 mkdir -p ${MNT_DIR}
 
 # first try to install open-vm-tools
@@ -24,7 +21,7 @@ RETVAL=$?
 if (test ! ${RETVAL} -eq 0); then
   # install dependencies
   ensure_packages perl
-  el ensure_packages kernel-devel-${KERNEL_VERSION} fuse-lib
+  el ensure_packages kernel-devel-${KERNEL_VERSION} fuse-lib xorg-x11-server-Xorg
   debian ensure_packages linux-headers-${KERNEL_VERSION} build-essential
 
   # mount + install

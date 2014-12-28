@@ -3,15 +3,18 @@ source common.sh
 
 ########## VirtualBox guest additions ##########
 
+# exit when not detected
+ifvbox echo "Detected VirtualBox" || exit 0
+
 # detect version
 unset VBOX_VERSION
 VBOX_VERSION=`cat .vbox_version`
 
 # exit when not detected
-test -z ${VBOX_VERSION} && exit 0
+test -z ${VBOX_VERSION} && "Could not detect VirtualBox version" && exit -1
 
 # install when detected
-echo "Detected VirtualBox ${VBOX_VERSION}"
+echo "Detected VirtualBox version ${VBOX_VERSION}"
 
 # install dependencies
 ensure_packages perl make gcc bzip2
