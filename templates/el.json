@@ -20,6 +20,7 @@
     "ISO_PREFIX_URL": null,
 
     "HEADLESS": false,
+    "BOOT_WAIT": "5s",
     "SSH_TIMEOUT": "600s",
     "SUDO_USER": "veewee"
   },
@@ -47,7 +48,7 @@
       "disk_size": "{{user `PACKER_HDD`}}",
 
       "http_directory": "kickstart",
-      "boot_wait": "2s",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "<tab> text cdrom <wait>",
         "ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}<wait>",
@@ -82,7 +83,7 @@
       "disk_size": "{{user `PACKER_HDD`}}",
 
       "http_directory": "kickstart",
-      "boot_wait": "2s",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "<tab> text cdrom <wait>",
         "ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}<wait>",
@@ -129,7 +130,7 @@
       "disk_size": "{{user `PACKER_HDD`}}",
 
       "http_directory": "kickstart",
-      "boot_wait": "4s",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "<tab> text cdrom <wait>",
         "ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}<wait>",

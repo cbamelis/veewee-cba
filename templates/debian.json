@@ -20,6 +20,7 @@
     "ISO_PREFIX_URL": null,
 
     "HEADLESS": false,
+    "BOOT_WAIT": "5s",
     "SSH_TIMEOUT": "600s",
     "SUDO_USER": "veewee"
   },
@@ -31,7 +32,6 @@
       "headless": "{{user `HEADLESS`}}",
       "accelerator": "kvm",
       "format": "qcow2",
-      "disk_cache": "unsafe",
       "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
       "qemuargs": [
         [ "-m", "{{user `PACKER_MEM`}}M" ]
@@ -47,7 +47,7 @@
       "disk_size": "{{user `PACKER_HDD`}}",
 
       "http_directory": "kickstart",
-      "boot_wait": "2s",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
@@ -94,10 +94,22 @@
       "disk_size": "{{user `PACKER_HDD`}}",
 
       "http_directory": "kickstart",
-      "boot_wait": "2s",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
-        "<tab> text cdrom <wait>",
-        "ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}<wait>",
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "netcfg/get_hostname={{.Name}} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
         "<enter><wait>"
       ],
 
@@ -141,7 +153,7 @@
       "disk_size": "{{user `PACKER_HDD`}}",
 
       "http_directory": "kickstart",
-      "boot_wait": "4s",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
