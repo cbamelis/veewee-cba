@@ -7,10 +7,17 @@ mkdir /etc/udev/rules.d/70-persistent-net.rules
 el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /HWADDR/d {} \;
 el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /UUID/d {} \;
 
+# remove dhcp client leases
+debian rm -f /var/lib/dhcp/dhclient.*
+el rm -f /var/lib/dhclient/*
+
+# remove SSH keys
+rm -f /etc/ssh/*key*
+
 # remove GCC and other build related packages
 #remove_packages make gcc dkms  # don't remove these packages: redhat-lsb-core is dependent on these
 #debian remove_packages linux-headers-${KERNEL_VERSION} xserver-xorg         build-essential
-el   remove_packages kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg glibc-devel glibc-headers kernel-headers mesa-libGL
+#el   remove_packages kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg glibc-devel glibc-headers kernel-headers mesa-libGL
 
 # if an Oracle UEK kernel is installed: remove all other kernels
 uek rpm -qa | uek grep ^kernel | uek grep -v ^kernel-uek | uek xargs yum remove -y
@@ -28,8 +35,14 @@ debian apt-get -y clean
 # remove root password if vagrant user exists
 #test -d /home/vagrant/ && passwd -d root
 
-# remove not required files
+# clean up logs
+cat /dev/null > /var/log/audit/audit.log 2>/dev/null
+cat /dev/null > /var/log/wtmp 2>/dev/null
+logrotate -f /etc/logrotate.conf 2>/dev/null
 find /var/log -iname "*.log" | xargs rm -f
+find /var/log -iname "*.gz" | xargs rm -f
+
+# clean up temp
 find /tmp ! -fstype vboxsf -type f -print0 | xargs -0 rm
 find /tmp ! -fstype vboxsf -type d -empty -delete
 test -d /tmp || mkdir /tmp
@@ -37,6 +50,14 @@ chmod 0777 /tmp
 
 # remove dummy logical volume
 debian lvremove -f /dev/vg/lv_autofill
+
+# set default hostname
+hostname localhost
+echo "localhost" > /etc/hostname
+
+# clear bash history
+history -c
+unset HISTFILE
 
 # list installed packages
 list_installed_packages
