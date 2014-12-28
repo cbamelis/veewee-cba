@@ -131,8 +131,8 @@ elif (test ${PACKER_PROVIDER} != "qemu"); then
   help_hyperv "Unsupported hypervisor (\"${PACKER_PROVIDER}\")" || exit -1
 fi
 
-# extra parameters for automated runs
-test ! -z ${JENKINS_URL} && EXTRA="-machine-readable -var HEADLESS=true" || EXTRA=
+# extra parameters for Jenkins runs
+test ! -z ${JENKINS_URL} && set PACKER_NO_COLOR=1 && unset PACKER_LOG && EXTRA="-var HEADLESS=true" || EXTRA=
 
 # packer build
 CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS} -only=${PACKER_PROVIDER} ${TEMPLATE}"

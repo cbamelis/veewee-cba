@@ -20,6 +20,7 @@
     "ISO_PREFIX_URL": null,
 
     "HEADLESS": false,
+    "SSH_TIMEOUT": "600s",
     "SUDO_USER": "veewee"
   },
 
@@ -56,9 +57,9 @@
       "ssh_username": "{{user `SUDO_USER`}}",
       "ssh_password": "{{user `SUDO_USER`}}",
       "ssh_port": 22,
-      "ssh_host_port_min": 2200,
-      "ssh_host_port_max": 2209,
-      "ssh_wait_timeout": "10000s",
+      "ssh_host_port_min": 22200,
+      "ssh_host_port_max": 22299,
+      "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
       "shutdown_command": "sudo ./shutdown.sh {{user `SUDO_USER`}}"
     },
@@ -91,7 +92,7 @@
       "ssh_username": "{{user `SUDO_USER`}}",
       "ssh_password": "{{user `SUDO_USER`}}",
       "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
+      "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
       "shutdown_command": "sudo ./shutdown.sh {{user `SUDO_USER`}}"
     },
@@ -138,9 +139,9 @@
       "ssh_username": "{{user `SUDO_USER`}}",
       "ssh_password": "{{user `SUDO_USER`}}",
       "ssh_port": 22,
-      "ssh_host_port_min": 2210,
-      "ssh_host_port_max": 2219,
-      "ssh_wait_timeout": "10000s",
+      "ssh_host_port_min": 22300,
+      "ssh_host_port_max": 22399,
+      "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
       "shutdown_command": "sudo ./shutdown.sh {{user `SUDO_USER`}}"
     }
@@ -158,7 +159,6 @@
       "inline": [
         "chmod a+x *.sh",
         "export PATH=.:${PATH}",
-        "#vagrant.sh && cleanup.sh",
         "vagrant.sh && puppet.sh && base.sh && vmware.sh && virtualbox.sh && cleanup.sh"
       ]
     }
