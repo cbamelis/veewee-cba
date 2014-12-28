@@ -26,12 +26,7 @@ debian apt-get -y autoremove
 debian apt-get -y clean
 
 # remove root password if vagrant user exists
-test -d /home/vagrant/ && passwd -d root
-
-# delete veewee user
-VEEWEE_USER=veewee
-rm -rf /home/${VEEWEE_USER}/*.iso
-#sed -i 's/^veewee.*$//' /etc/sudoers
+#test -d /home/vagrant/ && passwd -d root
 
 # remove not required files
 find /var/log -iname "*.log" | xargs rm -f
@@ -73,5 +68,5 @@ function zeroDisk() {
   sed -i "${UUID_UPDATE}" /etc/fstab
 }
 
-ifvbox zeroDisk || exit 0
-
+ifkvm exit 0
+zeroDisk

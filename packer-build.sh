@@ -54,6 +54,7 @@ function help_hyperv() {
   local MSG=$1
   echo -e "${MSG}"
   echo    "    virtualbox"
+  echo    "    vmware"
   echo    "    qemu"
   return 1
 }
@@ -70,8 +71,8 @@ function help() {
   echo "      which is assumed to follow naming convention <operating_system>-<hypervisor>"
   echo ""
   help_templates "\n  <packer_template> is a JSON packer template; currently supported:"
-  help_machines  "\n  <machine_type> is a JSON file with hardware description; currently supported:"
   help_kickstart "\n  <kickstart> is a kickstart/preseed file containing all answers for unattended OS installation; currently supported:"
+  help_machines  "\n  <machine_type> is a JSON file with hardware description; currently supported:"
   help_os        "\n  <operating_system> is a JSON file with Operating System description; currently supported:"
   help_hyperv    "\n  <hypervisor> is the name of the hypervisor (packer builder) to use; currently supported:"
   echo ""
@@ -113,7 +114,7 @@ if ([ $# -eq 0 ] && test ! -z ${JOB_NAME}); then
 else
   OS=$1
   PACKER_PROVIDER=$2
-  #JOB_NAME=${OS}-${PACKER_PROVIDER}
+  JOB_NAME=${OS}-${PACKER_PROVIDER}
 fi
 
 # verify parameter os
@@ -124,15 +125,17 @@ test -f ${OS} || help_os "Unable to find the given operating_system (\"${OS}\")"
 # verify parameter hypervisor
 if (test ${PACKER_PROVIDER} == "virtualbox"); then
   PACKER_PROVIDER="virtualbox-iso"
+elif (test ${PACKER_PROVIDER} == "vmware"); then
+  PACKER_PROVIDER="vmware-iso"
 elif (test ${PACKER_PROVIDER} != "qemu"); then
   help_hyperv "Unsupported hypervisor (\"${PACKER_PROVIDER}\")" || exit -1
 fi
 
 # extra parameters for automated runs
-test ! -z ${JOB_NAME} && EXTRA="-force -machine-readable -var HEADLESS=true" || EXTRA=
+test ! -z ${JENKINS_URL} && EXTRA="-machine-readable -var HEADLESS=true" || EXTRA=
 
 # packer build
-CMD="packer build ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS} -only=${PACKER_PROVIDER} ${TEMPLATE}"
+CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS} -only=${PACKER_PROVIDER} ${TEMPLATE}"
 echo ${CMD}
 ${CMD}
 

@@ -3,14 +3,14 @@ source common.sh
 
 ########## VirtualBox guest additions ##########
 
-# detect virtualbox version
+# detect version
 unset VBOX_VERSION
 VBOX_VERSION=`cat .vbox_version`
 
-# exit when virtualbox not detected
+# exit when not detected
 test -z ${VBOX_VERSION} && exit 0
 
-# install guest additions when VirtualBox is detected
+# install when detected
 echo "Detected VirtualBox ${VBOX_VERSION}"
 
 # install dependencies
@@ -25,12 +25,13 @@ EXE=${MNT_DIR}/VBoxLinuxAdditions.run
 ISO=VBoxGuestAdditions_${VBOX_VERSION}.iso
 mkdir -p ${MNT_DIR}
 
-# mount + install guest additions
+# mount + install
 mount -o loop,ro ${ISO} ${MNT_DIR} && sh ${EXE}
 
 # clean up
 umount -f ${MNT_DIR}
 rm -rf ${TMP_DIR}
+rm -f ${ISO}
 
 # validate by starting service
 service vboxadd start

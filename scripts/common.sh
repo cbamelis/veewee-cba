@@ -56,6 +56,14 @@ function ifkvm() {
     fi
 }
 
+function ifvmware() {
+    if (lspci | grep 'VMware' > /dev/null); then
+		"$@"; return $?
+    else
+        return 1
+    fi
+}
+
 
 ########## functions hiding OS differences ##########
 
