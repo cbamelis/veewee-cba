@@ -132,7 +132,7 @@ elif (test ${PACKER_PROVIDER} != "qemu"); then
 fi
 
 # extra parameters for Jenkins runs
-test ! -z ${JENKINS_URL} && set PACKER_NO_COLOR=1 && unset PACKER_LOG && EXTRA="-var HEADLESS=true" || EXTRA=
+test ! -z ${JENKINS_URL} && export PACKER_NO_COLOR=1 && unset PACKER_LOG_PATH && unset PACKER_LOG && EXTRA="-var HEADLESS=true" || EXTRA=
 
 # packer build
 CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS} -only=${PACKER_PROVIDER} ${TEMPLATE}"
