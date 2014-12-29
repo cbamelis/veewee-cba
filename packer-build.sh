@@ -8,10 +8,12 @@ DEFAULT_MACHINE_TYPE=single
 
 function help_templates() {
   local MSG=$1
-  echo -e "${MSG}"
+  echo -e "${MSG} (see ${PATH_JSON}):"
   for FILE in ${PATH_JSON}/*.json; do
     FILE_CONTENT=$(cat ${FILE} | grep -i description | cut -d ":" -f 2 | sed 's/"//g')
-    printf "    %-40s" ${FILE}
+    FILE=${FILE%.json}
+    FILE=${FILE#${PATH_JSON}/}
+    printf "    %-20s" ${FILE}
     echo ${FILE_CONTENT%\,}
   done
   return 1
@@ -19,10 +21,12 @@ function help_templates() {
 
 function help_machines() {
   local MSG=$1
-  echo -e "${MSG}"
+  echo -e "${MSG} (see ${PATH_MACHINES}):"
   for FILE in ${PATH_MACHINES}/*.json; do
     FILE_CONTENT=$(cat ${FILE} | sed ':a;N;$!ba;s/\n/ /g' )
-    printf "    %-40s" ${FILE}
+    FILE=${FILE%.json}
+    FILE=${FILE#${PATH_MACHINES}/}
+    printf "    %-20s" ${FILE}
     echo ${FILE_CONTENT}
   done
   return 1
@@ -30,10 +34,12 @@ function help_machines() {
 
 function help_kickstart() {
   local MSG=$1
-  echo -e "${MSG}"
+  echo -e "${MSG} (see ${PATH_KICKSTART}):"
   for FILE in ${PATH_KICKSTART}/*.cfg; do
     FILE_CONTENT=$(cat ${FILE} | head -1 )
-    printf "    %-40s" ${FILE}
+    FILE=${FILE%.cfg}
+    FILE=${FILE#${PATH_KICKSTART}/}
+    printf "    %-20s" ${FILE}
     echo ${FILE_CONTENT}
   done
   return 1
@@ -41,10 +47,12 @@ function help_kickstart() {
 
 function help_os() {
   local MSG=$1
-  echo -e "${MSG}"
+  echo -e "${MSG} (see ${PATH_OS}):"
   for FILE in ${PATH_OS}/*.json; do
     FILE_CONTENT=$(cat ${FILE} | grep "ISO_FILENAME" | sed 's/"//g' | sed 's/^\w+//')
-    printf "    %-40s" ${FILE}
+    FILE=${FILE%.json}
+    FILE=${FILE#${PATH_OS}/}
+    printf "    %-20s" ${FILE}
     echo "# ${FILE_CONTENT%\,}"
   done
   return 1
@@ -70,10 +78,10 @@ function help() {
   echo "    - <operating_system> and <hypervisor> will be parsed from the Jenkins JOB_NAME"
   echo "      which is assumed to follow naming convention <operating_system>-<hypervisor>"
   echo ""
-  help_templates "\n  <packer_template> is a JSON packer template; currently supported:"
-  help_kickstart "\n  <kickstart> is a kickstart/preseed file containing all answers for unattended OS installation; currently supported:"
-  help_machines  "\n  <machine_type> is a JSON file with hardware description; currently supported:"
-  help_os        "\n  <operating_system> is a JSON file with Operating System description; currently supported:"
+  help_templates "\n  <packer_template> is a JSON packer template; currently supported"
+  help_kickstart "\n  <kickstart> is a kickstart/preseed file containing all answers for unattended OS installation; currently supported"
+  help_machines  "\n  <machine_type> is a JSON file with hardware description; currently supported"
+  help_os        "\n  <operating_system> is a JSON file with Operating System description; currently supported"
   help_hyperv    "\n  <hypervisor> is the name of the hypervisor (packer builder) to use; currently supported:"
   echo ""
   exit -1
