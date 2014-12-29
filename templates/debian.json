@@ -22,7 +22,8 @@
     "HEADLESS": false,
     "BOOT_WAIT": "5s",
     "SSH_TIMEOUT": "600s",
-    "SUDO_USER": "veewee"
+    "SUDO_USER": "veewee",
+    "EXTRA_SCRIPTS": "&& keyboard-be.sh"
   },
 
   "builders": [
@@ -56,8 +57,8 @@
         "auto <wait>",
         "locale=en_US <wait>",
         "kbd-chooser/method=us <wait>",
-        "netcfg/get_hostname={{.Name}} <wait>",
-        "netcfg/get_domain=vagrantup.com <wait>",
+        "netcfg/get_hostname=localhost <wait>",
+        "netcfg/get_domain=vagrant <wait>",
         "fb=false <wait>",
         "debconf/frontend=noninteractive <wait>",
         "console-setup/ask_detect=false <wait>",
@@ -192,7 +193,7 @@
       "inline": [
         "chmod a+x *.sh",
         "export PATH=.:${PATH}",
-        "vagrant.sh && puppet.sh && base.sh && vmware.sh && virtualbox.sh && cleanup.sh"
+        "vagrant.sh && puppet.sh && base.sh && vmware.sh && virtualbox.sh && cleanup.sh {{user `EXTRA_SCRIPTS`}}"
       ]
     }
   ],

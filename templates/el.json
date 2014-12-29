@@ -22,7 +22,8 @@
     "HEADLESS": false,
     "BOOT_WAIT": "5s",
     "SSH_TIMEOUT": "600s",
-    "SUDO_USER": "veewee"
+    "SUDO_USER": "veewee",
+    "EXTRA_SCRIPTS": "&& keyboard-be.sh"
   },
 
   "builders": [
@@ -157,7 +158,7 @@
       "inline": [
         "chmod a+x *.sh",
         "export PATH=.:${PATH}",
-        "vagrant.sh && puppet.sh && base.sh && vmware.sh && virtualbox.sh && cleanup.sh"
+        "vagrant.sh && puppet.sh && base.sh && vmware.sh && virtualbox.sh && cleanup.sh {{user `EXTRA_SCRIPTS`}}"
       ]
     }
   ],
