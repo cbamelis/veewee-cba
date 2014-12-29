@@ -23,6 +23,7 @@
     "BOOT_WAIT": "5s",
     "SSH_TIMEOUT": "600s",
     "SUDO_USER": "vagrant",
+    "SUDO_PASSWORD": "vagrant",
     "EXTRA_SCRIPTS": "&& keyboard-be.sh"
   },
 
@@ -68,13 +69,13 @@
       ],
 
       "ssh_username": "{{user `SUDO_USER`}}",
-      "ssh_password": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_PASSWORD`}}",
       "ssh_port": 22,
       "ssh_host_port_min": 22000,
       "ssh_host_port_max": 22099,
       "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
-      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'"
+      "shutdown_command": "sudo ./shutdown.sh"
     },
 
     {
@@ -115,11 +116,11 @@
       ],
 
       "ssh_username": "{{user `SUDO_USER`}}",
-      "ssh_password": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_PASSWORD`}}",
       "ssh_port": 22,
       "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
-      "shutdown_command": "sudo ./shutdown.sh {{user `SUDO_USER`}}"
+      "shutdown_command": "sudo ./shutdown.sh"
     },
     
     {
@@ -171,13 +172,13 @@
       ],
 
       "ssh_username": "{{user `SUDO_USER`}}",
-      "ssh_password": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_PASSWORD`}}",
       "ssh_port": 22,
       "ssh_host_port_min": 22100,
       "ssh_host_port_max": 22199,
       "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
-      "shutdown_command": "echo 'halt -h -p' > shutdown.sh; echo '{{user `SUDO_USER`}}' | sudo -S bash 'shutdown.sh'"
+      "shutdown_command": "sudo ./shutdown.sh"
     }
   ],
 
@@ -189,7 +190,7 @@
     },
     {
       "type": "shell",
-      "execute_command": "chmod a+x '{{.Path}}'; echo '{{user `SUDO_USER`}}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "execute_command": "{{.Vars}} sudo -E bash '{{.Path}}'",
       "inline": [
         "chmod a+x *.sh",
         "export PATH=.:${PATH}",

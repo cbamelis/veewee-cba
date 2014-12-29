@@ -212,7 +212,7 @@ function bash_dot_d() {
 	test -d ${BASH_D} || mkdir -p ${BASH_D}
     echo -e '\nfor F in $HOME/.bash.d/*.sh; do source ${F}; done\n unset F' >> ${BASHRC}
     echo 'HISTFILESIZE=2500' > ${BASH_D}/bash_history.sh
-    chown -R ${USER_NAME} ${BASH_D} ${BASHRC}
+    chown -R ${USER_NAME}:${USER_NAME} ${BASH_D} ${BASHRC}
     chmod a+x ${BASH_D}/*
 }
 
