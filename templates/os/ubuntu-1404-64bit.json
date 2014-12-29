@@ -4,5 +4,6 @@
   "ISO_FILENAME": "ubuntu-14.04.1-desktop-amd64.iso",
   "ISO_MD5": "119cb63b48c9a18f31f417f09655efbd",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",
-  "ISO_PREFIX_URL": "http://releases.ubuntu.com/trusty"
+  "ISO_PREFIX_URL": "http://releases.ubuntu.com/trusty",
+  "BOOT_COMMAND": "<esc><wait> install <wait> debian-installer=en_US <wait> auto <wait> locale=en_US <wait> kbd-chooser/method=us <wait> netcfg/get_hostname=localhost <wait> netcfg/get_domain=vagrant <wait> fb=false <wait> debconf/frontend=noninteractive <wait> console-setup/ask_detect=false <wait>console-keymaps-at/keymap=us <wait> keyboard-configuration/xkb-keymap=us <wait> preseed/url="
 }

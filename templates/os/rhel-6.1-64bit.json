@@ -4,5 +4,6 @@
   "ISO_FILENAME": "rhel-server-6.1-x86_64-dvd.iso",
   "ISO_MD5": "a051dbf28ef444a019dc6660efe3e3a4",
   "ISO_PREFIX_LOCAL": "iso/RHEL",
-  "ISO_PREFIX_URL": "/share/dco/linux/RHEL/RHEL61"
+  "ISO_PREFIX_URL": "/share/dco/linux/RHEL/RHEL61",
+  "BOOT_COMMAND": "<tab> text cdrom ks="
 }

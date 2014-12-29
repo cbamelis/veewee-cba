@@ -4,5 +4,6 @@
   "ISO_FILENAME": "CentOS-5.11-i386-bin-1of8.iso",
   "ISO_MD5": "546644c985904a41e63f9260b297455c",
   "ISO_PREFIX_LOCAL": "iso/CentOS",
-  "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/5.11/isos/i386"
+  "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/5.11/isos/i386",
+  "BOOT_COMMAND": "<tab> text cdrom ks="
 }

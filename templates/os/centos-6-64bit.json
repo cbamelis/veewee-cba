@@ -4,5 +4,6 @@
   "ISO_FILENAME": "CentOS-6.6-x86_64-minimal.iso",
   "ISO_MD5": "eb3c8be6ab668e6d83a118323a789e6c",
   "ISO_PREFIX_LOCAL": "iso/CentOS",
-  "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/6.6/isos/x86_64"
+  "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/6.6/isos/x86_64",
+  "BOOT_COMMAND": "<tab> text cdrom ks="
 }
