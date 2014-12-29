@@ -61,9 +61,6 @@ echo "localhost" > /etc/hostname
 history -c
 unset HISTFILE
 
-# list installed packages
-list_installed_packages
-
 function zeroDisk() {
   # zero out the free space to save space in the final image
   for ROOT in $(cat /proc/mounts | grep ext4 | cut -d" " -f 2); do
@@ -93,3 +90,8 @@ function zeroDisk() {
 
 #ifkvm exit 0
 zeroDisk
+
+# list installed packages
+echo "Installed packages:"
+list_installed_packages
+
