@@ -1,6 +1,8 @@
 #!/bin/bash
 source common.sh
 
-el loadkeys be-latin1 && sed -i 's/^KEYTABLE=.*/KEYTABLE="be-latin1"/' /etc/sysconfig/keyboard \
-|| debian sed -i 's/^XKBLAYOUT=.*/XKBLAYOUT="be"/' /etc/default/keyboard
+debian sed -i 's/^XKBLAYOUT=.*/XKBLAYOUT="be"/' /etc/default/keyboard
+el6 sed -i 's/^KEYTABLE=.*/KEYTABLE="be-latin1"/' /etc/sysconfig/keyboard
+el7 localectl set-keymap be-latin1
+el loadkeys be-latin1 || exit 0
 
