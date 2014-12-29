@@ -134,14 +134,12 @@
         ["modifyvm", "{{.Name}}", "--cpus", "{{user `PACKER_CPU`}}"]
       ],
       "export_opts": [
-         "--options", "nomacs",
          "--vsys", "0",
          "--product", "{{user `META_NAME`}}",
          "--producturl", "{{user `META_URL`}}",
          "--version", "{{user `META_VERSION`}}"
       ],
 
-      "iso_interface": "sata",
       "iso_urls": [
          "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
          "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
@@ -149,7 +147,6 @@
       "iso_checksum_type": "md5",
       "iso_checksum": "{{user `ISO_MD5`}}",
 
-      "hard_drive_interface": "sata",
       "disk_size": "{{user `PACKER_HDD`}}",
 
       "http_directory": "kickstart",
