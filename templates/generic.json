@@ -54,7 +54,7 @@
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
         "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
-        "<enter><wait>"
+        "<wait><enter>"
       ],
 
       "ssh_username": "{{user `SUDO_USER`}}",
@@ -89,7 +89,7 @@
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
         "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
-        "<enter><wait>"
+        "<wait><enter>"
       ],
 
       "ssh_username": "{{user `SUDO_USER`}}",
@@ -133,7 +133,7 @@
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
         "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
-        "<enter><wait>"
+        "<wait><enter>"
       ],
 
       "ssh_username": "{{user `SUDO_USER`}}",
@@ -159,7 +159,7 @@
       "inline": [
         "chmod a+x *.sh",
         "export PATH=.:${PATH}",
-        "vagrant.sh && puppet.sh && base.sh && vmware.sh && virtualbox.sh && cleanup.sh {{user `EXTRA_SCRIPTS`}}"
+        "vagrant.sh && puppet.sh && base.sh && vmware.sh && virtualbox.sh {{user `EXTRA_SCRIPTS`}} && cleanup.sh"
       ]
     }
   ],
