@@ -14,7 +14,7 @@ el rm -f /var/lib/dhclient/*
 # remove SSH keys, but make sure new keys are generated upon first boot
 rm -f /etc/ssh/ssh_host_*key*
 sed -i "s/exit 0//" /etc/rc.local
-echo -e 'find /etc/ssh -name "ssh_host_*key*" > /dev/null || ssh-keygen -A\nexit 0' >> /etc/rc.local
+echo -e 'ssh-keygen -A\nexit 0' >> /etc/rc.local
 
 # remove GCC and other build related packages
 #remove_packages make gcc dkms  # don't remove these packages: redhat-lsb-core is dependent on these

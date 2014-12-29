@@ -22,7 +22,7 @@
     "HEADLESS": false,
     "BOOT_WAIT": "5s",
     "SSH_TIMEOUT": "600s",
-    "SUDO_USER": "veewee",
+    "SUDO_USER": "vagrant",
     "EXTRA_SCRIPTS": "&& keyboard-be.sh"
   },
 

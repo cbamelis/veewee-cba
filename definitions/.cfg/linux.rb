@@ -13,8 +13,8 @@ LINUX = {
   :postinstall_timeout => "10000",
   :ssh_login_timeout => "10000",
 
-  :ssh_password => "veewee",
-  :ssh_user => "veewee",
+  :ssh_password => "vagrant",
+  :ssh_user => "vagrant",
   :ssh_key => "",
 
   :kickstart_port => "7122",

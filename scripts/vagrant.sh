@@ -4,12 +4,12 @@ source common.sh
 ########## vagrant user stuff ##########
 
 VAGRANT_USER=vagrant
-VAGRANT_GROUP=${VAGRANT_USER}
-VAGRANT_PASSWORD=${VAGRANT_USER}
+#VAGRANT_GROUP=${VAGRANT_USER}
+#VAGRANT_PASSWORD=${VAGRANT_USER}
 
 # add vagrant sudo user
-groupadd ${VAGRANT_GROUP}
-user_add ${VAGRANT_USER} ${VAGRANT_PASSWORD} ${VAGRANT_GROUP}
+#groupadd ${VAGRANT_GROUP}
+#user_add ${VAGRANT_USER} ${VAGRANT_PASSWORD} ${VAGRANT_GROUP}
 sudoers_without_password ${VAGRANT_USER}
 
 # prepare for 'bash init scripts'
