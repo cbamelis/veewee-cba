@@ -48,6 +48,7 @@
       "iso_checksum": "{{user `ISO_MD5`}}",
 
       "disk_size": "{{user `PACKER_HDD`}}",
+      "disk_cache": "unsafe",
 
       "http_directory": "kickstart",
       "boot_wait": "{{user `BOOT_WAIT`}}",
