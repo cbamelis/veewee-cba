@@ -14,13 +14,14 @@ unset UBUNTU
 unset TOMTOM
 
 if test -e /etc/debian_version; then
-	DEBIAN=1
 	OS_DESCRIPTION=$(lsb_release -sd)
 	OS_FULL_VERSION=$(lsb_release -sr)
 	OS_CODE_NAME=$(lsb_release -sc)
 	OS_DISTRIBUTOR_ID=$(lsb_release -si)
 	if [ $OS_DISTRIBUTOR_ID = 'Ubuntu' ]; then
 	  UBUNTU=1
+    else
+      DEBIAN=1
 	fi
 fi
 
@@ -65,7 +66,21 @@ function ifvmware() {
 }
 
 
-########## functions hiding OS differences ##########
+########## package manager dependent ##########
+
+function ifapt() {
+  debian "$@" && return $?
+  ubuntu "$@" && return $?
+  return 1
+}
+
+function ifyum() {
+  el "$@" && return $?
+  return 1
+}
+
+
+########## operating system dependent ##########
 
 function el() {
 	if (test ! -z ${EL}); then
@@ -123,31 +138,34 @@ function ubuntu() {
 	fi
 }
 
+
+########## functions hiding OS differences ##########
+
 function is_package_installed() {
 	local PKG_NAME=$1
 	test -z ${PKG_NAME} && return 1
-	debian dpkg-query -W -f='${Status}\n' ${PKG_NAME} | grep -v "not-installed" > /dev/null 2>&1 \
-	|| el  rpm -q ${PKG_NAME} > /dev/null 2>&1
+	ifapt dpkg-query -W -f='${Status}\n' ${PKG_NAME} | grep -v "not-installed" > /dev/null 2>&1 \
+	|| ifyum rpm -q ${PKG_NAME} > /dev/null 2>&1
 	return $?
 }
 
 function _install_package() {
 	local PKG_NAME=$1
 	test -z ${PKG_NAME} && return 1
-	debian dpkg -i  ${PKG_NAME} \
-	|| el  rpm -ivh ${PKG_NAME}
+	ifapt    dpkg -i  ${PKG_NAME} \
+	|| ifyum rpm -ivh ${PKG_NAME}
 	return $?
 }
 
 function _install_packages() {
-	debian apt-get -y install "$@" \
-	|| el  yum     -y install "$@"
+	ifapt apt-get -y install "$@" \
+	|| ifyum yum  -y install "$@"
 	return $?
 }
 
 function _remove_packages() {
-	debian apt-get -y purge  "$@" \
-	|| el  yum     -y remove "$@"
+	ifapt    apt-get -y purge  "$@" \
+	|| ifyum yum     -y remove "$@"
 	return $?
 }
 
@@ -184,8 +202,8 @@ function http_package_install() {
 }
 
 function list_installed_packages() {
-    debian dpkg-query -W \
-    || el  rpm -qa | sort
+    ifapt    dpkg-query -W \
+    || ifyum rpm -qa | sort
 }
 
 function user_add() {
@@ -197,7 +215,7 @@ function user_add() {
 		&& echo "${USER_PASSWORD}" | passwd --stdin ${USER_NAME} \
 		&& return $?
 
-	debian ensure_packages perl \
+	ifapt ensure_packages perl \
 		&& useradd ${USER_NAME} -g ${USER_GROUP} -p $(perl -e "print crypt(\"${USER_NAME}\", \"${USER_PASSWORD}\")") -m -s /bin/bash \
 		&& return $?
 

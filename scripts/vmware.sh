@@ -22,7 +22,7 @@ if (test ! ${RETVAL} -eq 0); then
   # install dependencies
   ensure_packages perl
   el ensure_packages kernel-devel-${KERNEL_VERSION} fuse-lib xorg-x11-server-Xorg
-  debian ensure_packages linux-headers-${KERNEL_VERSION} build-essential
+  ifapt ensure_packages linux-headers-${KERNEL_VERSION} build-essential
 
   # mount + install
   mount -o loop,ro ${ISO} ${MNT_DIR} && tar zxvf ${MNT_DIR}/VMwareTools-*.tar.gz -C ${TMP_DIR}/ && ${EXE} -d

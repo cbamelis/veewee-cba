@@ -5,8 +5,9 @@ source common.sh
 
 if (test -z ${TOMTOM}); then
   el      http_package_install  http://yum.puppetlabs.com/el/${OS_MAJOR_VERSION}/products/${ARCH}  puppetlabs-release-${OS_MAJOR_VERSION}-11.noarch.rpm
-  debian  http_package_install  http://apt.puppetlabs.com                                          puppetlabs-release-${OS_CODE_NAME}.deb
-  debian  apt-get update
+  ifapt   http_package_install  http://apt.puppetlabs.com                                          puppetlabs-release-${OS_CODE_NAME}.deb
+  ifapt  apt-get clean
+  ifapt  apt-get update
 fi
 
 ########## install puppet ##########

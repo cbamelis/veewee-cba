@@ -14,8 +14,8 @@ fi
 
 ########## install base tools ##########
 
-debian ensure_packages  htop wget curl rsync sux man-db vim x11-apps
-el     ensure_packages  htop wget curl rsync man vim-enhanced
+ifapt ensure_packages  htop wget curl rsync man-db vim x11-apps
+el    ensure_packages  htop wget curl rsync man vim-enhanced
 
 # validate by showing installed package versions
    echo -en 'htop  version : ' && htop  --version \

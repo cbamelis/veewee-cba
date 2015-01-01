@@ -8,7 +8,7 @@ el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /HWADDR/d
 el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /UUID/d {} \;
 
 # remove dhcp client leases
-debian rm -f /var/lib/dhcp/dhclient.*
+ifapt rm -f /var/lib/dhcp/dhclient.*
 el rm -f /var/lib/dhclient/*
 
 # remove SSH keys, but make sure new keys are generated upon first boot
@@ -18,7 +18,7 @@ echo -e 'ssh-keygen -A\nexit 0' >> /etc/rc.local
 
 # remove GCC and other build related packages
 #remove_packages make gcc dkms  # don't remove these packages: redhat-lsb-core is dependent on these
-#debian remove_packages linux-headers-${KERNEL_VERSION} xserver-xorg         build-essential
+#ifapt remove_packages linux-headers-${KERNEL_VERSION} xserver-xorg         build-essential
 #el   remove_packages kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg glibc-devel glibc-headers kernel-headers mesa-libGL
 
 # if an Oracle UEK kernel is installed: remove all other kernels
@@ -31,8 +31,8 @@ el package-cleanup -y --oldkernels --count=1
 
 # clean package cache
 el yum -y clean all
-debian apt-get -y autoremove
-debian apt-get -y clean
+ifapt apt-get -y autoremove
+ifapt apt-get -y clean
 
 # remove root password if vagrant user exists
 #test -d /home/vagrant/ && passwd -d root
@@ -51,7 +51,7 @@ test -d /tmp || mkdir /tmp
 chmod 0777 /tmp
 
 # remove dummy logical volume
-debian lvremove -f /dev/vg/lv_autofill
+ifapt lvremove -f /dev/vg/lv_autofill
 
 # set default hostname
 hostname localhost

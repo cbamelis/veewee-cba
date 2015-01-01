@@ -19,7 +19,7 @@ echo "Detected VirtualBox version ${VBOX_VERSION}"
 # install dependencies
 ensure_packages perl make gcc bzip2
 el     ensure_packages  kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg
-debian ensure_packages  linux-headers-${KERNEL_VERSION} xserver-xorg          libdbus-1-3 build-essential
+ifapt ensure_packages  linux-headers-${KERNEL_VERSION} xserver-xorg          libdbus-1-3 build-essential
 
 # init
 TMP_DIR=/tmp/mnt
