@@ -56,7 +56,7 @@
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
         "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
-        " -- {{user `BOOT_KERNEL_PARAMS`}}",
+        "{{user `BOOT_COMMAND_EXTRA`}}",
         "<wait><enter>"
       ],
 
@@ -92,7 +92,7 @@
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
         "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
-        " -- {{user `BOOT_KERNEL_PARAMS`}}",
+        "{{user `BOOT_COMMAND_EXTRA`}}",
         "<wait><enter>"
       ],
 
