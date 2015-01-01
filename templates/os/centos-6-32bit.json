@@ -5,5 +5,6 @@
   "ISO_MD5": "8c14c9a379aa7c7477471938ca06447d",
   "ISO_PREFIX_LOCAL": "iso/CentOS",
   "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/6.6/isos/i386",
-  "BOOT_COMMAND": "<tab> text cdrom ks="
+  "BOOT_COMMAND": "<tab> text cdrom ks=",
+  "BOOT_KERNEL_PARAMS": ""
 }
