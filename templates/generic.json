@@ -1,5 +1,5 @@
 {
-  "description": "Generic packer template (usable for all operating systems)",
+  "description": "Generic packer template (usable for all linux systems)",
 
   "variables": {
     "PACKER_CPU": null,
@@ -19,14 +19,14 @@
     "ISO_PREFIX_LOCAL": null,
     "ISO_PREFIX_URL": null,
     "BOOT_COMMAND": null,
-    "BOOT_KERNEL_PARAMS": null,
+    "BOOT_COMMAND_EXTRA": "",
 
     "HEADLESS": false,
     "BOOT_WAIT": "5s",
     "SSH_TIMEOUT": "600s",
     "SUDO_USER": "vagrant",
     "SUDO_PASSWORD": "vagrant",
-    "EXTRA_SCRIPTS": "&& keyboard-be.sh"
+    "EXTRA_SCRIPTS": "&& keyboard-be.sh && upgrade.sh"
   },
 
   "builders": [
@@ -136,9 +136,9 @@
       "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
-        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
-        " -- {{user `BOOT_KERNEL_PARAMS`}}",
-        "<wait><enter>"
+        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
+        "{{user `BOOT_COMMAND_EXTRA`}}",
+        " <wait><enter>"
       ],
 
       "ssh_username": "{{user `SUDO_USER`}}",
@@ -174,7 +174,7 @@
       "type": "vagrant",
       "compression_level": 9,
       "keep_input_artifact": true,
-      "output": "boxes/{{user `OUTPUT_NAME`}}-{{.Provider}}.box"
+      "output": "boxes/{{.Provider}}/{{user `OUTPUT_NAME`}}.box"
     }
   ]
 }
