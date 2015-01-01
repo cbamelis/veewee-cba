@@ -116,37 +116,41 @@ if ([ $# -eq 0 ] && test ! -z ${JOB_NAME}); then
   JOB_NAME_AS_ARRAY=(${JOB_NAME//-/ })  # replace dash by space; split into array
   TOKEN_COUNT=${#JOB_NAME_AS_ARRAY[@]}
   LAST_TOKEN_INDEX=$(expr ${TOKEN_COUNT} - 1)
-  PACKER_PROVIDER=${JOB_NAME_AS_ARRAY[${LAST_TOKEN_INDEX}]}
+  PROVIDER=${JOB_NAME_AS_ARRAY[${LAST_TOKEN_INDEX}]}
   CMD_EXTRA=" -force -machine-readable -var HEADLESS=true"
-  OS=${JOB_NAME%-${PACKER_PROVIDER}}
+  OS=${JOB_NAME%-${PROVIDER}}
 else
   OS=$1
-  PACKER_PROVIDER=$2
-  JOB_NAME=${OS}-${PACKER_PROVIDER}
+  PROVIDER=$2
+  JOB_NAME=${OS}-${PROVIDER}
 fi
 
 # verify parameter os
-VAGRANT_BOX_NAME=${OS}
-test -f ${OS} || OS=${PATH_OS}/${OS}.json
-test -f ${OS} || help_os "Unable to find the given operating_system (\"${OS}\")" || exit -1
+OS_FULL=${PATH_OS}/${OS}.json
+test -f ${OS_FULL} || help_os "Unable to find the given operating_system (\"${OS}\")" || exit -1
 
 # verify parameter hypervisor
-if (test ${PACKER_PROVIDER} == "virtualbox"); then
+if (test ${PROVIDER} == "virtualbox"); then
   PACKER_PROVIDER="virtualbox-iso"
-elif (test ${PACKER_PROVIDER} == "vmware"); then
+elif (test ${PROVIDER} == "vmware"); then
   PACKER_PROVIDER="vmware-iso"
-elif (test ${PACKER_PROVIDER} != "qemu"); then
-  help_hyperv "Unsupported hypervisor (\"${PACKER_PROVIDER}\")" || exit -1
+elif (test ${PROVIDER} != "qemu"); then
+  PACKER_PROVIDER="qemu"
+  help_hyperv "Unsupported hypervisor (\"${PROVIDER}\")" || exit -1
 fi
 
 # extra parameters for Jenkins runs
 test ! -z ${JENKINS_URL} && export PACKER_NO_COLOR=1 && unset PACKER_LOG_PATH && unset PACKER_LOG && EXTRA="-var HEADLESS=true -var EXTRA_SCRIPTS=" || EXTRA=
 
 # packer build
-CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS} -only=${PACKER_PROVIDER} ${TEMPLATE}"
+CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS_FULL} -only=${PACKER_PROVIDER} ${TEMPLATE}"
 echo ${CMD}
 ${CMD}
 
 # vagrant add box
-[ $? -eq 0 ] && [ ! -z ${JOB_NAME} ] && vagrant box add -f --name ${VAGRANT_BOX_NAME} ./boxes/${JOB_NAME}.box
+[ $? -eq 0 ] && \
+  mkdir -p ./boxes/${PROVIDER} \
+  && vagrant box add -f --name ${OS} ./boxes/${PROVIDER}/${OS}.box \
+  && [ ${PROVIDER} == "virtualbox" ] \
+  && vagrant mutate ./boxes/${PROVIDER}/${OS}.box libvirt
 
