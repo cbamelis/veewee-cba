@@ -13,7 +13,7 @@ function help_templates() {
     FILE_CONTENT=$(cat ${FILE} | grep -i description | cut -d ":" -f 2 | sed 's/"//g')
     FILE=${FILE%.json}
     FILE=${FILE#${PATH_JSON}/}
-    printf "    %-20s" ${FILE}
+    printf "    %-30s" ${FILE}
     echo ${FILE_CONTENT%\,}
   done
   return 1
@@ -26,7 +26,7 @@ function help_machines() {
     FILE_CONTENT=$(cat ${FILE} | sed ':a;N;$!ba;s/\n/ /g' )
     FILE=${FILE%.json}
     FILE=${FILE#${PATH_MACHINES}/}
-    printf "    %-20s" ${FILE}
+    printf "    %-30s" ${FILE}
     echo ${FILE_CONTENT}
   done
   return 1
@@ -39,7 +39,7 @@ function help_kickstart() {
     FILE_CONTENT=$(cat ${FILE} | head -1 )
     FILE=${FILE%.cfg}
     FILE=${FILE#${PATH_KICKSTART}/}
-    printf "    %-20s" ${FILE}
+    printf "    %-30s" ${FILE}
     echo ${FILE_CONTENT}
   done
   return 1
@@ -52,7 +52,7 @@ function help_os() {
     FILE_CONTENT=$(cat ${FILE} | grep "ISO_FILENAME" | sed 's/"//g' | sed 's/^\w+//')
     FILE=${FILE%.json}
     FILE=${FILE#${PATH_OS}/}
-    printf "    %-20s" ${FILE}
+    printf "    %-30s" ${FILE}
     echo "# ${FILE_CONTENT%\,}"
   done
   return 1
