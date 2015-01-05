@@ -151,6 +151,9 @@ ${CMD}
 [ $? -eq 0 ] && \
   mkdir -p ./boxes/${PROVIDER} \
   && vagrant box add -f --name ${OS} ./boxes/${PROVIDER}/${OS}.box \
+
+# in case we build a VirtualBox image outside of Jenkins, also make the box available for libvirt provider
+[ $? -eq 0 ] && [ -z ${JENKINS_URL} ] \
   && [ ${PROVIDER} == "virtualbox" ] \
   && vagrant mutate ./boxes/${PROVIDER}/${OS}.box libvirt
 
