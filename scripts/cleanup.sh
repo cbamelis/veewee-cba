@@ -2,8 +2,9 @@
 source common.sh
 
 # remove traces of mac address from network configuration
-rm -f /etc/udev/rules.d/70-persistent-net.rules
-mkdir /etc/udev/rules.d/70-persistent-net.rules
+UDEV_NET=/etc/udev/rules.d/70-persistent-net.rules
+test -d ${UDEV_NET} || rm -rf ${UDEV_NET}
+test -d ${UDEV_NET} || mkdir -p ${UDEV_NET}
 el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /HWADDR/d {} \;
 el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /UUID/d {} \;
 
