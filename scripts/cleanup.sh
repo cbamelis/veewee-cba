@@ -14,8 +14,8 @@ el rm -f /var/lib/dhclient/*
 
 # remove SSH keys, but make sure new keys are generated upon first boot
 rm -f /etc/ssh/ssh_host_*key*
-sed -i "s/exit 0//" /etc/rc.local
-echo -e 'ssh-keygen -A\nexit 0' >> /etc/rc.local
+grep ssh-keygen /etc/rc.local || sed -i "s/exit 0//" /etc/rc.local
+grep ssh-keygen /etc/rc.local || echo -e 'ssh-keygen -A\nexit 0' >> /etc/rc.local
 
 # remove GCC and other build related packages
 #remove_packages make gcc dkms  # don't remove these packages: redhat-lsb-core is dependent on these
@@ -54,10 +54,6 @@ chmod 0777 /tmp
 # remove dummy logical volume
 ifapt lvremove -f /dev/vg/lv_autofill
 
-# set default hostname
-hostname localhost
-echo "localhost" > /etc/hostname
-
 # clear bash history
 history -c
 unset HISTFILE
@@ -89,7 +85,6 @@ function zeroDisk() {
   sed -i "${UUID_UPDATE}" /etc/fstab
 }
 
-#ifkvm exit 0
 zeroDisk
 
 # list installed packages
