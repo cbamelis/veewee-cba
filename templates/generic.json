@@ -158,7 +158,8 @@
       "type": "shell",
       "execute_command": "{{.Vars}} sudo -E bash '{{.Path}}'",
       "inline": [
-        "mkdir -p packer"
+        "mkdir -p packer",
+        "chown vagrant:vagrant packer"
       ]
     },
     {
