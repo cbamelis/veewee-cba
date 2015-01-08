@@ -8,7 +8,7 @@ ifvbox echo "Detected VirtualBox" || exit 0
 
 # detect version
 unset VBOX_VERSION
-VBOX_VERSION=`cat ${HOME}/.vbox_version`
+VBOX_VERSION=`cat /home/vagrant/.vbox_version`
 
 # exit when not detected
 test -z ${VBOX_VERSION} && "Could not detect VirtualBox version" && exit -1
@@ -25,7 +25,7 @@ ifapt ensure_packages  linux-headers-${KERNEL_VERSION} xserver-xorg          lib
 TMP_DIR=/tmp/mnt
 MNT_DIR=${TMP_DIR}/cdrom
 EXE=${MNT_DIR}/VBoxLinuxAdditions.run
-ISO=${HOME}/VBoxGuestAdditions_${VBOX_VERSION}.iso
+ISO=/home/vagrant/VBoxGuestAdditions_${VBOX_VERSION}.iso
 mkdir -p ${MNT_DIR}
 
 # mount + install

@@ -10,7 +10,7 @@ ifvmware echo "Detected VMWare" || exit 0
 TMP_DIR=/tmp/mnt
 MNT_DIR=${TMP_DIR}/cdrom
 EXE=${TMP_DIR}/vmware-tools-distrib/vmware-install.pl
-ISO=${HOME}/vmware-tools.iso
+ISO=/home/vagrant/vmware-tools.iso
 mkdir -p ${MNT_DIR}
 
 # first try to install open-vm-tools
