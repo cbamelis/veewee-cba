@@ -76,7 +76,7 @@
       "headless": "{{user `HEADLESS`}}",
       "guest_os_type": "linux",
       "tools_upload_flavor": "linux",
-      "tools_upload_path": "vmware-tools.iso",
+      "tools_upload_path": "/home/{{user `SUDO_USER`}}/vmware-tools.iso",
 
       "iso_urls": [
          "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
@@ -110,8 +110,8 @@
       "headless": "{{user `HEADLESS`}}",
       "guest_os_type": "{{user `OS_TYPE`}}",
       "guest_additions_mode": "upload",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "virtualbox_version_file": ".vbox_version",
+      "guest_additions_path": "/home/{{user `SUDO_USER`}}/VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": "/home/{{user `SUDO_USER`}}/.vbox_version",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "{{user `PACKER_MEM`}}"],
         ["modifyvm", "{{.Name}}", "--cpus", "{{user `PACKER_CPU`}}"],
