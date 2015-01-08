@@ -154,4 +154,4 @@ ${CMD}
 
 # in case we build a VirtualBox image outside of Jenkins, also make the box available for libvirt provider
 [ $? -eq 0 ] && [ ! -z ${JENKINS_URL} ] && exit 0
-[ ${PROVIDER} == "virtualbox" ] && vagrant mutate ./boxes/${PROVIDER}/${OS}.box libvirt
+[ $? -eq 0 ] && [ ${PROVIDER} == "virtualbox" ] && vagrant mutate ./boxes/${PROVIDER}/${OS}.box libvirt
