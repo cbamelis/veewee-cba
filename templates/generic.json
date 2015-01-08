@@ -67,7 +67,7 @@
       "ssh_host_port_max": 22099,
       "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
-      "shutdown_command": "sudo ./packer/shutdown.sh"
+      "shutdown_command": "cd packer && sudo ./shutdown.sh"
     },
 
     {
@@ -101,7 +101,7 @@
       "ssh_port": 22,
       "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
-      "shutdown_command": "sudo ./packer/shutdown.sh"
+      "shutdown_command": "cd packer && sudo ./shutdown.sh"
     },
     
     {
@@ -149,7 +149,7 @@
       "ssh_host_port_max": 22199,
       "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
 
-      "shutdown_command": "sudo ./packer/shutdown.sh"
+      "shutdown_command": "cd packer && sudo ./shutdown.sh"
     }
   ],
 
