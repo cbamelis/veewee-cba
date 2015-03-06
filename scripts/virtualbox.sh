@@ -18,8 +18,8 @@ echo "Detected VirtualBox version ${VBOX_VERSION}"
 
 # install dependencies
 ensure_packages perl make gcc bzip2
-el     ensure_packages  kernel-devel-${KERNEL_VERSION}  xorg-x11-server-Xorg
-ifapt ensure_packages  linux-headers-${KERNEL_VERSION} xserver-xorg          libdbus-1-3 build-essential
+el     ensure_packages  kernel-devel-${KERNEL_VERSION} kernel-headers-${KERNEL_VERSION} xorg-x11-server-Xorg
+ifapt ensure_packages  linux-headers-${KERNEL_VERSION} xserver-xorg libdbus-1-3 build-essential
 
 # init
 TMP_DIR=/tmp/mnt
@@ -29,7 +29,11 @@ ISO=/home/vagrant/VBoxGuestAdditions_${VBOX_VERSION}.iso
 mkdir -p ${MNT_DIR}
 
 # mount + install
-mount -o loop,ro ${ISO} ${MNT_DIR} && sh ${EXE}
+el5 export KERN_DIR=/usr/src/kernels/`uname -r`-`uname -m`
+el6 export KERN_DIR=/usr/src/kernels/`uname -r`
+el7 export KERN_DIR=/usr/src/kernels/`uname -r`
+umount -f ${MNT_DIR}
+mount -o loop,ro ${ISO} ${MNT_DIR} && sh ${EXE} && echo "VBox OK" || exit -1
 
 # clean up
 umount -f ${MNT_DIR}
