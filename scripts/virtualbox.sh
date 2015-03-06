@@ -33,7 +33,7 @@ el5 export KERN_DIR=/usr/src/kernels/`uname -r`-`uname -m`
 el6 export KERN_DIR=/usr/src/kernels/`uname -r`
 el7 export KERN_DIR=/usr/src/kernels/`uname -r`
 umount -f ${MNT_DIR}
-mount -o loop,ro ${ISO} ${MNT_DIR} && sh ${EXE} && echo "VBox OK" || exit -1
+mount -o loop,ro ${ISO} ${MNT_DIR} && sh ${EXE}
 
 # clean up
 umount -f ${MNT_DIR}
