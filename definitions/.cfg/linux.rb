@@ -11,7 +11,7 @@ LINUX = {
   :iso_download_timeout => "10000",
   :kickstart_timeout => "10000",
   :postinstall_timeout => "10000",
-  :ssh_login_timeout => "10000",
+  :ssh_login_timeout => "3",
 
   :ssh_password => "vagrant",
   :ssh_user => "vagrant",

@@ -1,8 +1,8 @@
 {
   "OS_TYPE": "Ubuntu_64",
   "OUTPUT_NAME": "ubuntu-1404-server-64bit",
-  "ISO_FILENAME": "ubuntu-14.04.1-server-amd64.iso",
-  "ISO_MD5": "ca2531b8cd79ea5b778ede3a524779b9",
+  "ISO_FILENAME": "ubuntu-14.04.2-server-amd64.iso",
+  "ISO_MD5": "",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",
   "ISO_PREFIX_URL": "http://releases.ubuntu.com/14.04",
   "BOOT_COMMAND": "<esc><esc><enter> <wait> /install/vmlinuz initrd=/install/initrd.gz noapic auto fb=false hostname=localhost locale=en_US debian-installer=en_US console-setup/ask_detect=false console-setup/layoutcode=us keymap=us tasks=server url="

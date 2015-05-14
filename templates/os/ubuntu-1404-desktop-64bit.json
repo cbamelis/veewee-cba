@@ -1,8 +1,8 @@
 {
   "OS_TYPE": "Ubuntu_64",
   "OUTPUT_NAME": "ubuntu-1404-desktop-64bit",
-  "ISO_FILENAME": "ubuntu-14.04.1-desktop-amd64.iso",
-  "ISO_MD5": "119cb63b48c9a18f31f417f09655efbd",
+  "ISO_FILENAME": "ubuntu-14.04.2-desktop-amd64.iso",
+  "ISO_MD5": "",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",
   "ISO_PREFIX_URL": "http://releases.ubuntu.com/14.04",
   "BOOT_COMMAND": "<esc><esc><esc><enter> <wait> /casper/vmlinuz.efi initrd=/casper/initrd.lz boot=casper automatic-ubiquity quiet splash noprompt hostname=localhost url=",
