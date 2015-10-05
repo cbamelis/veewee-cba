@@ -1,9 +1,9 @@
 {
   "OS_TYPE": "Debian_64",
-  "OUTPUT_NAME": "debian-7-64bit",
-  "ISO_FILENAME": "debian-7.9.0-amd64-netinst.iso",
-  "ISO_MD5": "774d1fc8c5364e63b22242c33a89c1a3",
+  "OUTPUT_NAME": "debian-8-64bit",
+  "ISO_FILENAME": "debian-8.2.0-amd64-netinst.iso",
+  "ISO_MD5": "762eb3dfc22f85faf659001ebf270b4f",
   "ISO_PREFIX_LOCAL": "iso/Debian",
-  "ISO_PREFIX_URL": "http://cdimage.debian.org/mirror/cdimage/archive/7.9.0/amd64/iso-cd",
+  "ISO_PREFIX_URL": "http://mirror.as35701.net/debian-cd/8.2.0/amd64/iso-cd",
   "BOOT_COMMAND": "<esc><wait> install <wait> debian-installer=en_US <wait> auto <wait> locale=en_US <wait> kbd-chooser/method=us <wait> netcfg/get_hostname=localhost <wait> netcfg/get_domain=vagrant <wait> fb=false <wait> debconf/frontend=noninteractive <wait> console-setup/ask_detect=false <wait>console-keymaps-at/keymap=us <wait> keyboard-configuration/xkb-keymap=us <wait> preseed/url="
 }

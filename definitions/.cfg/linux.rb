@@ -1,27 +1,27 @@
 scripts = "../.scripts"
 
 LINUX = {
-  :cpu_count => "1",        # 1 CPU
-  :memory_size=> "512",     # 0.5 GB memory
-  :disk_size => "1048576",  # 1 TB HDD size
+  :cpu_count   => "1",        # 1 CPU
+  :memory_size => "512",      # 0.5 GB memory
+  :disk_size   => "1048576",  # 1 TB HDD size
   :disk_format => "VDI",
   :hostiocache => "on",
 
-  :boot_wait => "5",
-  :iso_download_timeout => "10000",
-  :kickstart_timeout => "10000",
-  :postinstall_timeout => "10000",
-  :ssh_login_timeout => "3",
+  :iso_download_timeout => "1000",  # time required to download missing ISO
+  :boot_wait            => "5",     # wait to display boot/install menu
+  :kickstart_timeout    => "120",   # wait for typing boot command + starting setup + network configuration + kickstart download
+  :ssh_login_timeout    => "1200",  # wait long enough for OS install + first reboot + ssh service
+  :postinstall_timeout  => "1200",  # give postinstall scripts enough time to finish
 
   :ssh_password => "vagrant",
-  :ssh_user => "vagrant",
-  :ssh_key => "",
+  :ssh_user     => "vagrant",
+  :ssh_key      => "",
 
   :kickstart_port => "7122",
-  :ssh_host_port => "7222",
+  :ssh_host_port  => "7222",
   :ssh_guest_port => "22",
-  :sudo_cmd => "echo '%p' | sudo -S bash '%f'",
-  :shutdown_cmd => "halt -h -p",
+  :sudo_cmd       => "echo '%p' | sudo -S bash '%f'",
+  :shutdown_cmd   => "halt -h -p",
 
   :postinstall_files => [
     "#{scripts}/common.sh",

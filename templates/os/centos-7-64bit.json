@@ -1,8 +1,8 @@
 {
   "OS_TYPE": "RedHat_64",
   "OUTPUT_NAME": "centos-7-64bit",
-  "ISO_FILENAME": "CentOS-7.0-1406-x86_64-Minimal.iso",
-  "ISO_MD5": "e3afe3f1121d69c40cc23f0bafa05e5d",
+  "ISO_FILENAME": "CentOS-7-x86_64-Minimal-1503-01.iso",
+  "ISO_MD5": "d07ab3e615c66a8b2e9a50f4852e6a77",
   "ISO_PREFIX_LOCAL": "iso/CentOS",
   "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/7/isos/x86_64",
   "BOOT_COMMAND": "<tab> text cdrom ks="

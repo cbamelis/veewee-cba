@@ -49,7 +49,7 @@ function help_os() {
   local MSG=$1
   echo -e "${MSG} (see ${PATH_OS}):"
   for FILE in ${PATH_OS}/*.json; do
-    FILE_CONTENT=$(cat ${FILE} | grep "ISO_FILENAME" | sed 's/"//g' | sed 's/^\w+//')
+    FILE_CONTENT=$(cat ${FILE} | grep "ISO_FILENAME" | sed 's/"//g' | sed 's/ISO_FILENAME://g' | sed 's/^\w+//' )
     FILE=${FILE%.json}
     FILE=${FILE#${PATH_OS}/}
     printf "    %-30s" ${FILE}
@@ -143,7 +143,8 @@ fi
 test ! -z ${JENKINS_URL} && export PACKER_NO_COLOR=1 && unset PACKER_LOG_PATH && unset PACKER_LOG && EXTRA="-var HEADLESS=true -var EXTRA_SCRIPTS=" || EXTRA=
 
 # packer build
-CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS_FULL} -only=${PACKER_PROVIDER} ${TEMPLATE}"
+HOST_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
+CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART_HTTPIP=${HOST_IP} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS_FULL} -only=${PACKER_PROVIDER} ${TEMPLATE}"
 echo ${CMD}
 ${CMD}
 

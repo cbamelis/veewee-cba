@@ -7,6 +7,7 @@
     "PACKER_HDD": null,
 
     "PACKER_KICKSTART": null,
+    "PACKER_KICKSTART_HTTPIP": null,
 
     "META_NAME": "{{env `JOB_NAME`}}",
     "META_VERSION": "{{env `BUILD_NUMBER`}}",
@@ -21,7 +22,7 @@
     "BOOT_COMMAND": null,
     "BOOT_COMMAND_EXTRA": "",
 
-    "HEADLESS": false,
+    "HEADLESS": "false",
     "BOOT_WAIT": "5s",
     "SSH_TIMEOUT": "600s",
     "SUDO_USER": "vagrant",
@@ -137,7 +138,7 @@
       "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
-        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
+        "http://{{user `PACKER_KICKSTART_HTTPIP`}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
         "{{user `BOOT_COMMAND_EXTRA`}}",
         " <wait><enter>"
       ],
