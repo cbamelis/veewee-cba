@@ -24,7 +24,7 @@
 
     "HEADLESS": "false",
     "BOOT_WAIT": "5s",
-    "SSH_TIMEOUT": "600s",
+    "SSH_TIMEOUT": "900s",
     "SUDO_USER": "vagrant",
     "SUDO_PASSWORD": "vagrant",
     "EXTRA_SCRIPTS": "&& keyboard-be.sh && upgrade.sh"
