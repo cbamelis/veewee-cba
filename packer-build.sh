@@ -143,8 +143,7 @@ fi
 test ! -z ${JENKINS_URL} && export PACKER_NO_COLOR=1 && unset PACKER_LOG_PATH && unset PACKER_LOG && EXTRA="-var HEADLESS=true -var EXTRA_SCRIPTS=" || EXTRA=
 
 # packer build
-HOST_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
-CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART_HTTPIP=${HOST_IP} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS_FULL} -only=${PACKER_PROVIDER} ${TEMPLATE}"
+CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS_FULL} -only=${PACKER_PROVIDER} ${TEMPLATE}"
 echo ${CMD}
 ${CMD}
 
