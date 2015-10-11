@@ -7,6 +7,7 @@
     "PACKER_HDD": null,
 
     "PACKER_KICKSTART": null,
+    "PACKER_KICKSTART_HTTPIP": "{{.HTTPIP}}",
 
     "META_NAME": "{{env `JOB_NAME`}}",
     "META_VERSION": "{{env `BUILD_NUMBER`}}",
@@ -19,7 +20,7 @@
     "ISO_PREFIX_LOCAL": null,
     "ISO_PREFIX_URL": null,
     "BOOT_COMMAND": null,
-    "BOOT_COMMAND_EXTRA": "",
+    "BOOT_COMMAND_EXTRA": "<wait>",
 
     "HEADLESS": "false",
     "BOOT_WAIT": "5s",
@@ -55,7 +56,7 @@
       "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
-        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
+        "http://{{user `PACKER_KICKSTART_HTTPIP`}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
         "{{user `BOOT_COMMAND_EXTRA`}}",
         "<wait><enter>"
       ],
@@ -91,7 +92,7 @@
       "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
-        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
+        "http://{{user `PACKER_KICKSTART_HTTPIP`}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
         "{{user `BOOT_COMMAND_EXTRA`}}",
         "<wait><enter>"
       ],
@@ -137,9 +138,9 @@
       "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
-        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}}",
+        "http://{{user `PACKER_KICKSTART_HTTPIP`}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
         "{{user `BOOT_COMMAND_EXTRA`}}",
-        " <wait><enter>"
+        "<enter>"
       ],
 
       "ssh_username": "{{user `SUDO_USER`}}",

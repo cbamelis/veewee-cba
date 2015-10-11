@@ -5,6 +5,6 @@
   "ISO_MD5": "53c869eba8686007239a650d903847fd",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",
   "ISO_PREFIX_URL": "http://releases.ubuntu.com/15.04",
-  "BOOT_COMMAND": "<esc><esc><esc><enter> <wait> /casper/vmlinuz.efi initrd=/casper/initrd.lz boot=casper automatic-ubiquity quiet splash noprompt hostname=localhost url=",
+  "BOOT_COMMAND": "<esc><esc><esc><enter><wait>/casper/vmlinuz.efi initrd=/casper/initrd.lz boot=casper automatic-ubiquity quiet splash noprompt hostname=localhost url=",
   "SSH_TIMEOUT": "1200s"
 }
