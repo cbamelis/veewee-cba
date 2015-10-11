@@ -41,5 +41,5 @@ rm -rf ${TMP_DIR}
 rm -f ${ISO}
 
 # validate by starting service
-service vboxadd start
+service vboxadd start || service vboxadd-service start
 
