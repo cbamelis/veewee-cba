@@ -7,7 +7,6 @@
     "PACKER_HDD": null,
 
     "PACKER_KICKSTART": null,
-    "PACKER_KICKSTART_HTTPIP": "{{.HTTPIP}}",
 
     "META_NAME": "{{env `JOB_NAME`}}",
     "META_VERSION": "{{env `BUILD_NUMBER`}}",
@@ -56,7 +55,7 @@
       "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
-        "http://{{user `PACKER_KICKSTART_HTTPIP`}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
+        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
         "{{user `BOOT_COMMAND_EXTRA`}}",
         "<wait><enter>"
       ],
@@ -92,7 +91,7 @@
       "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
-        "http://{{user `PACKER_KICKSTART_HTTPIP`}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
+        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
         "{{user `BOOT_COMMAND_EXTRA`}}",
         "<wait><enter>"
       ],
@@ -138,7 +137,7 @@
       "boot_wait": "{{user `BOOT_WAIT`}}",
       "boot_command": [
         "{{user `BOOT_COMMAND`}}",
-        "http://{{user `PACKER_KICKSTART_HTTPIP`}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
+        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
         "{{user `BOOT_COMMAND_EXTRA`}}",
         "<enter>"
       ],
