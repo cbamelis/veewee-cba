@@ -158,7 +158,7 @@ function _install_package() {
 }
 
 function _install_packages() {
-	ifapt apt-get -y install "$@" \
+	ifapt apt-get -y install --no-install-recommends "$@" \
 	|| ifyum yum  -y install "$@"
 	return $?
 }
