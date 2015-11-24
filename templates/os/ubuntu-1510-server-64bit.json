@@ -1,0 +1,9 @@
+{
+  "OS_TYPE": "Ubuntu_64",
+  "OUTPUT_NAME": "ubuntu-1510-server-64bit",
+  "ISO_FILENAME": "ubuntu-15.10-server-amd64.iso",
+  "ISO_MD5": "fb4eef05edcabfc5cccd4cb44f3f9b48",
+  "ISO_PREFIX_LOCAL": "iso/Ubuntu",
+  "ISO_PREFIX_URL": "http://releases.ubuntu.com/15.10",
+  "BOOT_COMMAND": "<esc><esc><enter><wait>/install/vmlinuz initrd=/install/initrd.gz noapic auto fb=false hostname=localhost locale=en_US debian-installer=en_US console-setup/ask_detect=false console-setup/layoutcode=us keymap=us tasks=server preseed/url="
+}
