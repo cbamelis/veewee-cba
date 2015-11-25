@@ -142,18 +142,20 @@ fi
 # extra parameters for Jenkins runs
 test ! -z ${JENKINS_URL} && export PACKER_NO_COLOR=1 && unset PACKER_LOG_PATH && unset PACKER_LOG && EXTRA="-var HEADLESS=true -var EXTRA_SCRIPTS=" || EXTRA=
 
+# use packer to build box with default output file name is ${OS}; specify BOX_NAME before running this script if you want to override
+export BOX_NAME=${BOX_NAME:-${OS}}
+
 # packer build
-#HOST_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
-#EXTRA="${EXTRA} -var PACKER_KICKSTART_HTTPIP=${HOST_IP}"
-CMD="packer build -force ${EXTRA} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS_FULL} -only=${PACKER_PROVIDER} ${TEMPLATE}"
+CMD="packer build -force ${EXTRA} -var OUTPUT_NAME=${BOX_NAME} -var PACKER_KICKSTART=${KICKSTART} -var-file=${MACHINE_TYPE} -var-file=${OS_FULL} -only=${PACKER_PROVIDER} ${TEMPLATE}"
 echo ${CMD}
 ${CMD}
 
 # vagrant add box
 [ $? -eq 0 ] && \
   mkdir -p ./boxes/${PROVIDER} \
-  && vagrant box add -f --name ${OS} ./boxes/${PROVIDER}/${OS}.box \
+  && vagrant box add -f --name ${BOX_NAME} ./boxes/${PROVIDER}/${BOX_NAME}.box
 
 # in case we build a VirtualBox image outside of Jenkins, also make the box available for libvirt provider
 [ $? -eq 0 ] && [ ! -z ${JENKINS_URL} ] && exit 0
-[ $? -eq 0 ] && [ ${PROVIDER} == "virtualbox" ] && vagrant mutate ./boxes/${PROVIDER}/${OS}.box libvirt
+[ $? -eq 0 ] && [ ${PROVIDER} == "virtualbox" ] && vagrant mutate ./boxes/${PROVIDER}/${BOX_NAME}.box libvirt
+

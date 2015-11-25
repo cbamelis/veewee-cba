@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "Debian_64",
-  "OUTPUT_NAME": "debian-7-64bit",
   "ISO_FILENAME": "debian-7.9.0-amd64-netinst.iso",
   "ISO_MD5": "774d1fc8c5364e63b22242c33a89c1a3",
   "ISO_PREFIX_LOCAL": "iso/Debian",

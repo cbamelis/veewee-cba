@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "Ubuntu_64",
-  "OUTPUT_NAME": "ubuntu-1510-desktop-64bit",
   "ISO_FILENAME": "ubuntu-15.10-desktop-amd64.iso",
   "ISO_MD5": "ece816e12f97018fa3d4974b5fd27337",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",

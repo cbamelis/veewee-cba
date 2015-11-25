@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "Ubuntu_64",
-  "OUTPUT_NAME": "ubuntu-1404-desktop-64bit",
   "ISO_FILENAME": "ubuntu-14.04.3-desktop-amd64.iso",
   "ISO_MD5": "cab6dd5ee6d649ed1b24e807c877c0ae",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",

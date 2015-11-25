@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "RedHat",
-  "OUTPUT_NAME": "centos-5-32bit",
   "ISO_FILENAME": "CentOS-5.11-i386-bin-1of8.iso",
   "ISO_MD5": "546644c985904a41e63f9260b297455c",
   "ISO_PREFIX_LOCAL": "iso/CentOS",

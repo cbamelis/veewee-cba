@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "Ubuntu",
-  "OUTPUT_NAME": "ubuntu-1204-server-32bit",
   "ISO_FILENAME": "ubuntu-12.04.5-server-i386.iso",
   "ISO_MD5": "1214cd22448338b60bb24f583dd8741a",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",

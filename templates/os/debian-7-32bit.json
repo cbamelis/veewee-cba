@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "Debian",
-  "OUTPUT_NAME": "debian-7-32bit",
   "ISO_FILENAME": "debian-7.9.0-i386-netinst.iso",
   "ISO_MD5": "e101a11ddb31f85acef542df1a49bf57",
   "ISO_PREFIX_LOCAL": "iso/Debian",

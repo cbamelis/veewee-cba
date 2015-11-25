@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "Debian",
-  "OUTPUT_NAME": "debian-8-32bit",
   "ISO_FILENAME": "debian-8.2.0-i386-netinst.iso",
   "ISO_MD5": "28383ea038dc46ebbc78fda1e868a49e",
   "ISO_PREFIX_LOCAL": "iso/Debian",

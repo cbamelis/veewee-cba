@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "Ubuntu_64",
-  "OUTPUT_NAME": "ubuntu-1204-desktop-64bit",
   "ISO_FILENAME": "ubuntu-12.04.5-alternate-amd64.iso",
   "ISO_MD5": "fa0893ffe2188a6daf918791cdccb480",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",

@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "RedHat_64",
-  "OUTPUT_NAME": "rhel-6.1-64bit",
   "ISO_FILENAME": "rhel-server-6.1-x86_64-dvd.iso",
   "ISO_MD5": "a051dbf28ef444a019dc6660efe3e3a4",
   "ISO_PREFIX_LOCAL": "iso/RHEL",

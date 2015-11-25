@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "Ubuntu_64",
-  "OUTPUT_NAME": "ubuntu-1510-server-64bit",
   "ISO_FILENAME": "ubuntu-15.10-server-amd64.iso",
   "ISO_MD5": "fb4eef05edcabfc5cccd4cb44f3f9b48",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",

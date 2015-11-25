@@ -1,6 +1,5 @@
 {
   "OS_TYPE": "RedHat_64",
-  "OUTPUT_NAME": "centos-6-64bit",
   "ISO_FILENAME": "CentOS-6.7-x86_64-minimal.iso",
   "ISO_MD5": "9381a24b8bee2fed0c26896141a64b69",
   "ISO_PREFIX_LOCAL": "iso/CentOS",
