@@ -1,8 +1,0 @@
-{
-  "OS_TYPE": "RedHat_64",
-  "ISO_FILENAME": "CentOS-6.7-x86_64-minimal.iso",
-  "ISO_MD5": "9381a24b8bee2fed0c26896141a64b69",
-  "ISO_PREFIX_LOCAL": "iso/CentOS",
-  "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/6.7/isos/x86_64",
-  "BOOT_COMMAND": "<tab> text cdrom ks="
-}

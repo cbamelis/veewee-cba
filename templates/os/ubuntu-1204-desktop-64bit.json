@@ -1,9 +1,0 @@
-{
-  "OS_TYPE": "Ubuntu_64",
-  "ISO_FILENAME": "ubuntu-12.04.5-alternate-amd64.iso",
-  "ISO_MD5": "fa0893ffe2188a6daf918791cdccb480",
-  "ISO_PREFIX_LOCAL": "iso/Ubuntu",
-  "ISO_PREFIX_URL": "http://releases.ubuntu.com/12.04",
-  "BOOT_COMMAND": "<esc><esc><enter><wait>/install/vmlinuz initrd=/install/initrd.gz noapic auto fb=false hostname=localhost locale=en_US debian-installer=en_US console-setup/ask_detect=false console-setup/layoutcode=us keymap=us tasks=ubuntu-desktop url=",
-  "SSH_TIMEOUT": "1200s"
-}

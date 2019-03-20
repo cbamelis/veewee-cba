@@ -1,11 +1,6 @@
 #!/bin/bash
 source common.sh
 
-if (test -z ${TOMTOM}); then
-  ifapt apt-get clean
-  ifapt apt-get -y upgrade
-  ifyum yum -y clean all
-  ifyum yum -y upgrade
-fi
-exit 0
+ifapt apt-get clean || ifyum yum -y clean all
+ifapt apt-get -fy upgrade || ifyum yum -y upgrade
 

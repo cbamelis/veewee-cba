@@ -1,0 +1,9 @@
+{
+  "OS_TYPE": "RedHat_64",
+  "ISO_FILENAME": "CentOS-6.10-x86_64-minimal.iso",
+  "ISO_CHECKSUM_TYPE": "sha256",
+  "ISO_CHECKSUM": "7c0dee2a0494dabd84809b72ddb4b761f9ef92b78a506aef709b531c54d30770",
+  "ISO_PREFIX_LOCAL": "iso/CentOS",
+  "ISO_PREFIX_URL": "http://mirror.hostnet.nl/centos/6.10/isos/x86_64/",
+  "BOOT_COMMAND": "<tab> text cdrom ks="
+}

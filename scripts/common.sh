@@ -1,17 +1,19 @@
 #!/bin/bash
 
+set -e
+set -x
+
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 
 ########## check OS architecture and version ##########
 
-KERNEL_VERSION=$(uname -r)
-ARCH=$(uname -m)
+export KERNEL_VERSION=$(uname -r)
+export ARCH=$(uname -m)
 test "${ARCH}" != "x86_64" && ARCH='i386'
 
 unset EL
 unset DEBIAN
 unset UBUNTU
-unset TOMTOM
 
 if test -e /etc/debian_version; then
 	OS_DESCRIPTION=$(lsb_release -sd)
@@ -32,9 +34,6 @@ if test -e ${RELEASE_FILE}; then
 fi
 
 OS_MAJOR_VERSION=$(echo ${OS_FULL_VERSION} | cut -d. -f1)
-
-test -d /etc/yum.repos.d && grep ttg.global /etc/yum.repos.d/*.repo > /dev/null && TOMTOM=1
-test -d /etc/yum.managedrepos.d && grep amsterdam.tomtom.com /etc/yum.managedrepos.d/*.repo > /dev/null && TOMTOM=1
 
 
 ########## hypervisor functions ##########
@@ -138,6 +137,22 @@ function ubuntu() {
 	fi
 }
 
+function ubuntu1604() {
+	if (ubuntu test "${OS_CODE_NAME}" == "xenial"); then
+		"$@"; return $?
+	else
+		return 1
+	fi
+}
+
+function ubuntu1804() {
+	if (ubuntu test "${OS_CODE_NAME}" == "bionic"); then
+		"$@"; return $?
+	else
+		return 1
+	fi
+}
+
 
 ########## functions hiding OS differences ##########
 
@@ -211,6 +226,8 @@ function user_add() {
 	local USER_PASSWORD=$2
 	local USER_GROUP=$3
 
+	id -u ${USER_NAME:?} && return 0
+
 	el useradd ${USER_NAME} -g ${USER_GROUP} -m -s /bin/bash \
 		&& echo "${USER_PASSWORD}" | passwd --stdin ${USER_NAME} \
 		&& return $?
@@ -220,6 +237,20 @@ function user_add() {
 		&& return $?
 
 	return 1
+}
+
+function user_remove() {
+	local USER_NAME=$1
+	id -u ${USER_NAME:?} || return 0
+	userdel ${USER_NAME:?} --remove
+	return $?
+}
+
+function group_remove() {
+	local GROUP_NAME=$1
+	getent group ${GROUP_NAME:?} || return 0
+	groupdel ${GROUP_NAME:?}
+	return $?
 }
 
 function bash_dot_d() {

@@ -1,8 +1,0 @@
-{
-  "OS_TYPE": "RedHat_64",
-  "ISO_FILENAME": "CentOS-5.11-x86_64-bin-1of9.iso",
-  "ISO_MD5": "8d038271ed185b88956bdf215e606b1c",
-  "ISO_PREFIX_LOCAL": "iso/CentOS",
-  "ISO_PREFIX_URL": "http://mirror.myip.be/pub/centos/5.11/isos/x86_64",
-  "BOOT_COMMAND": "<tab> text cdrom ks="
-}

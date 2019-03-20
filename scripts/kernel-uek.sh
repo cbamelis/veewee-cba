@@ -5,7 +5,7 @@ source common.sh
 
 ifapt return 0
 ensure_packages wget
-el5 wget http://public-yum.oracle.com/public-yum-el5.repo -P /etc/yum.repos.d/
+el5 wget http://public-yum.oracle.com/public-yum-el5.repo -P /etc/yum.repos.d/ || \
 el6 wget http://public-yum.oracle.com/public-yum-ol6.repo -P /etc/yum.repos.d/
 
 

@@ -1,0 +1,9 @@
+{
+  "OS_TYPE": "Ubuntu",
+  "ISO_FILENAME": "ubuntu-12.04.5-server-i386.iso",
+  "ISO_CHECKSUM_TYPE": "md5",
+  "ISO_CHECKSUM": "1214cd22448338b60bb24f583dd8741a",
+  "ISO_PREFIX_LOCAL": "iso/Ubuntu",
+  "ISO_PREFIX_URL": "http://releases.ubuntu.com/12.04",
+  "BOOT_COMMAND": "<esc><esc><enter><wait>/install/vmlinuz initrd=/install/initrd.gz noapic auto fb=false hostname=localhost locale=en_US debian-installer=en_US console-setup/ask_detect=false console-setup/layoutcode=us keymap=us tasks=server url="
+}

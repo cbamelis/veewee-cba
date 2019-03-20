@@ -1,0 +1,10 @@
+{
+  "OS_TYPE": "Ubuntu_64",
+  "ISO_FILENAME": "ubuntu-16.04.6-desktop-amd64.iso",
+  "ISO_CHECKSUM_TYPE": "md5",
+  "ISO_CHECKSUM": "5416371cc0e990871746ddaac89f1a5e",
+  "ISO_PREFIX_LOCAL": "iso/Ubuntu",
+  "ISO_PREFIX_URL": "http://releases.ubuntu.com/16.04",
+  "BOOT_COMMAND": "<esc><esc><esc><enter><wait>/casper/vmlinuz.efi initrd=/casper/initrd.lz boot=casper automatic-ubiquity quiet splash noprompt hostname=localhost url=",
+  "SSH_TIMEOUT": "1200s"
+}

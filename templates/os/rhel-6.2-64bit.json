@@ -1,8 +1,0 @@
-{
-  "OS_TYPE": "RedHat_64",
-  "ISO_FILENAME": "rhel-server-6.2-x86_64-dvd.iso",
-  "ISO_MD5": "7525d7ea1b1fd074538c7505bccd143d",
-  "ISO_PREFIX_LOCAL": "iso/RHEL",
-  "ISO_PREFIX_URL": "/share/dco/linux/RHEL/RHEL62",
-  "BOOT_COMMAND": "<tab> text cdrom ks="
-}

@@ -3,19 +3,18 @@ source common.sh
 
 ########## add useful repositories ##########
 
-if (test -z ${TOMTOM}); then
-  EPEL_URL=http://fedora.cu.be/epel/${OS_MAJOR_VERSION}/${ARCH}
-  el5 http_package_install ${EPEL_URL} epel-release-5-4.noarch.rpm
-  el6 http_package_install ${EPEL_URL} epel-release-6-8.noarch.rpm
-  el7 http_package_install ${EPEL_URL} epel-release-7-2.noarch.rpm
+#el http_package_install http://repository.it4i.cz/mirrors/repoforge/redhat/el6/en/x86_64/rpmforge/RPMS rpmforge-release-0.5.3-1.el${OS_MAJOR_VERSION}.rf.${ARCH}.rpm || :
+EPEL_URL=https://dl.fedoraproject.org/pub/epel
+el6 http_package_install ${EPEL_URL} epel-release-latest-6.noarch.rpm || \
+el7 http_package_install ${EPEL_URL} epel-release-latest-7.noarch.rpm || \
+ifapt add-apt-repository universe || :
+ifapt apt-get -y update || :
 
-  el http_package_install http://packages.sw.be/rpmforge-release rpmforge-release-0.5.3-1.el${OS_MAJOR_VERSION}.rf.${ARCH}.rpm
-fi
 
 ########## install base tools ##########
 
-ifapt ensure_packages  htop wget curl rsync man-db vim x11-apps
-el    ensure_packages  htop wget curl rsync man vim-enhanced
+ifapt ensure_packages  htop wget curl rsync ca-certificates man-db vim x11-apps || \
+el    ensure_packages  htop wget curl rsync ca-certificates man vim-enhanced
 
 # validate by showing installed package versions
    echo -en 'htop  version : ' && htop  --version \

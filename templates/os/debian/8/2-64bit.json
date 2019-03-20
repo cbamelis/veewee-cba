@@ -1,0 +1,9 @@
+{
+  "OS_TYPE": "Debian_64",
+  "ISO_FILENAME": "debian-8.2.0-amd64-netinst.iso",
+  "ISO_CHECKSUM_TYPE": "md5",
+  "ISO_CHECKSUM": "762eb3dfc22f85faf659001ebf270b4f",
+  "ISO_PREFIX_LOCAL": "iso/Debian",
+  "ISO_PREFIX_URL": "http://mirror.as35701.net/debian-cd/8.2.0/amd64/iso-cd",
+  "BOOT_COMMAND": "<esc><wait>install debian-installer=en_US auto locale=en_US kbd-chooser/method=us <wait> netcfg/get_hostname=localhost netcfg/get_domain=vagrant <wait> fb=false <wait> debconf/frontend=noninteractive <wait> console-setup/ask_detect=false <wait>console-keymaps-at/keymap=us <wait> keyboard-configuration/xkb-keymap=us preseed/url="
+}

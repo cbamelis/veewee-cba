@@ -1,9 +1,0 @@
-{
-  "OS_TYPE": "Ubuntu_64",
-  "ISO_FILENAME": "ubuntu-15.10-desktop-amd64.iso",
-  "ISO_MD5": "ece816e12f97018fa3d4974b5fd27337",
-  "ISO_PREFIX_LOCAL": "iso/Ubuntu",
-  "ISO_PREFIX_URL": "http://releases.ubuntu.com/15.10",
-  "BOOT_COMMAND": "<esc><esc><esc><enter><wait>/casper/vmlinuz.efi initrd=/casper/initrd.lz boot=casper automatic-ubiquity quiet splash noprompt hostname=localhost url=",
-  "SSH_TIMEOUT": "1200s"
-}

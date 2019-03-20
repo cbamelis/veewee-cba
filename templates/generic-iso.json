@@ -1,0 +1,193 @@
+{
+  "description": "Generic packer template starting from ISO (usable for all linux systems)",
+
+  "variables": {
+    "PACKER_CPU": null,
+    "PACKER_MEM": null,
+    "PACKER_HDD": null,
+
+    "PACKER_KICKSTART": null,
+
+    "META_NAME": "{{env `JOB_NAME`}}",
+    "META_VERSION": "{{env `BUILD_NUMBER`}}",
+    "META_URL": "{{env `BUILD_URL`}}",
+
+    "OS_TYPE": null,
+    "OUTPUT_NAME": null,
+    "ISO_FILENAME": null,
+    "ISO_CHECKSUM_TYPE": null,
+    "ISO_CHECKSUM": null,
+    "ISO_PREFIX_LOCAL": null,
+    "ISO_PREFIX_URL": null,
+    "BOOT_COMMAND": null,
+    "BOOT_COMMAND_EXTRA": "<wait>",
+
+    "HEADLESS": "false",
+    "BOOT_WAIT": "5s",
+    "SSH_TIMEOUT": "900s",
+    "SUDO_USER": "packer",
+    "SUDO_PASSWORD": "packer",
+    "HYPERVISOR_INIT": "{{env `HYPERVISOR_INIT`}}",
+    "EXTRA_SCRIPTS": "{{env `EXTRA_SCRIPTS`}}"
+  },
+
+  "builders": [
+    {
+      "type": "qemu",
+
+      "headless": "{{user `HEADLESS`}}",
+      "accelerator": "kvm",
+      "format": "qcow2",
+      "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
+      "qemuargs": [
+        [ "-m", "{{user `PACKER_MEM`}}M" ]
+      ],
+
+      "iso_urls": [
+         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
+         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
+       ],
+      "iso_checksum_type": "{{user `ISO_CHECKSUM_TYPE`}}",
+      "iso_checksum": "{{user `ISO_CHECKSUM`}}",
+
+      "disk_size": "{{user `PACKER_HDD`}}",
+      "disk_cache": "unsafe",
+
+      "http_directory": "kickstart",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
+      "boot_command": [
+        "{{user `BOOT_COMMAND`}}",
+        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
+        "{{user `BOOT_COMMAND_EXTRA`}}",
+        "<wait><enter>"
+      ],
+
+      "ssh_username": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_PASSWORD`}}",
+      "ssh_port": 22,
+      "ssh_host_port_min": 22000,
+      "ssh_host_port_max": 22099,
+      "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
+
+      "shutdown_command": "cd packer && sudo ./shutdown.sh"
+    },
+
+    {
+      "type": "vmware-iso",
+
+      "headless": "{{user `HEADLESS`}}",
+      "guest_os_type": "linux",
+      "tools_upload_flavor": "linux",
+      "tools_upload_path": "/home/{{user `SUDO_USER`}}/vmware-tools.iso",
+
+      "iso_urls": [
+         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
+         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
+       ],
+      "iso_checksum_type": "{{user `ISO_CHECKSUM_TYPE`}}",
+      "iso_checksum": "{{user `ISO_CHECKSUM`}}",
+
+      "disk_size": "{{user `PACKER_HDD`}}",
+
+      "http_directory": "kickstart",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
+      "boot_command": [
+        "{{user `BOOT_COMMAND`}}",
+        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
+        "{{user `BOOT_COMMAND_EXTRA`}}",
+        "<wait><enter>"
+      ],
+
+      "ssh_username": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_PASSWORD`}}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
+
+      "shutdown_command": "cd packer && sudo ./shutdown.sh"
+    },
+    
+    {
+      "type": "virtualbox-iso",
+
+      "headless": "{{user `HEADLESS`}}",
+      "guest_os_type": "{{user `OS_TYPE`}}",
+      "guest_additions_mode": "upload",
+      "guest_additions_path": "/home/{{user `SUDO_USER`}}/VBoxGuestAdditions.iso",
+      "virtualbox_version_file": "/home/{{user `SUDO_USER`}}/.vbox_version",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{user `PACKER_MEM`}}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{user `PACKER_CPU`}}"],
+        ["modifyvm", "{{.Name}}", "--vram", "16"]
+      ],
+      "export_opts": [
+         "--vsys", "0",
+         "--product", "{{user `META_NAME`}}",
+         "--producturl", "{{user `META_URL`}}",
+         "--version", "{{user `META_VERSION`}}"
+      ],
+
+      "iso_urls": [
+         "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
+         "{{user `ISO_PREFIX_URL`}}/{{user `ISO_FILENAME`}}"
+       ],
+      "iso_checksum_type": "{{user `ISO_CHECKSUM_TYPE`}}",
+      "iso_checksum": "{{user `ISO_CHECKSUM`}}",
+
+      "disk_size": "{{user `PACKER_HDD`}}",
+
+      "http_directory": "kickstart",
+      "boot_wait": "{{user `BOOT_WAIT`}}",
+      "boot_command": [
+        "{{user `BOOT_COMMAND`}}",
+        "http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `PACKER_KICKSTART`}} ",
+        "{{user `BOOT_COMMAND_EXTRA`}}",
+        "<enter>"
+      ],
+
+      "ssh_username": "{{user `SUDO_USER`}}",
+      "ssh_password": "{{user `SUDO_PASSWORD`}}",
+      "ssh_port": 22,
+      "ssh_host_port_min": 22100,
+      "ssh_host_port_max": 22199,
+      "ssh_wait_timeout": "{{user `SSH_TIMEOUT`}}",
+
+      "shutdown_command": "cd packer && sudo ./shutdown.sh"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -E bash '{{.Path}}'",
+      "inline": [
+        "mkdir -p packer",
+        "chown {{user `SUDO_USER`}}:{{user `SUDO_USER`}} packer"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "scripts/",
+      "destination": "./packer"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -E bash -xe '{{.Path}}'",
+      "inline": [
+        "cd packer",
+        "chmod a+x *.sh",
+        "export PATH=.:${PATH}",
+        "base.sh && init-vagrant.sh && {{user `EXTRA_SCRIPTS`}} && {{user `HYPERVISOR_INIT`}} && cleanup.sh && {{user `HYPERVISOR_CLEANUP`}}"
+      ]
+    }
+  ],
+
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "compression_level": 9,
+      "keep_input_artifact": true,
+      "output": "boxes/{{.Provider}}/{{user `OUTPUT_NAME`}}.box"
+    }
+  ]
+}
+
