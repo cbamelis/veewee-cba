@@ -152,7 +152,8 @@ else
 fi
 
 # extra parameters for Jenkins runs
-test ! -z ${JENKINS_URL} && export PACKER_NO_COLOR=1 && unset PACKER_LOG_PATH && unset PACKER_LOG && EXTRA="-var HEADLESS=true" || EXTRA="-on-error=ask"
+#test ! -z ${JENKINS_URL} && export PACKER_NO_COLOR=1 && unset PACKER_LOG_PATH && unset PACKER_LOG && EXTRA="-var HEADLESS=true" || EXTRA="-on-error=ask"
+test ! -z ${JENKINS_URL} && export PACKER_NO_COLOR=1 && export PACKER_LOG=1 && EXTRA="-var HEADLESS=true" || EXTRA="-on-error=ask"
 
 # use packer to build box with default output file name is ${OS}; specify BOX_NAME before running this script if you want to override
 OS_NAME=$(cat ${OS_FULL:?} | jq ".ISO_FILENAME" | tr -d '"')

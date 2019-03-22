@@ -40,7 +40,8 @@
       "format": "qcow2",
       "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
       "qemuargs": [
-        [ "-m", "{{user `PACKER_MEM`}}M" ]
+        [ "-m", "{{user `PACKER_MEM`}}M" ],
+        [ "-nographic" ]
       ],
 
       "iso_urls": [
