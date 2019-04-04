@@ -38,7 +38,8 @@
       "headless": "{{user `HEADLESS`}}",
       "accelerator": "kvm",
       "format": "qcow2",
-      "vm_name": "{{user `OUTPUT_NAME`}}-kvm",
+      "output_directory": "./packer-output/{{user `OUTPUT_NAME`}}",
+      "vm_name": "{{user `OUTPUT_NAME`}}.qcow2",
       "qemuargs": [
         [ "-m", "{{user `PACKER_MEM`}}M" ]
       ],
@@ -79,6 +80,8 @@
       "guest_os_type": "linux",
       "tools_upload_flavor": "linux",
       "tools_upload_path": "/home/{{user `SUDO_USER`}}/vmware-tools.iso",
+      "output_directory": "./packer-output/{{user `OUTPUT_NAME`}}",
+      "vm_name": "{{user `OUTPUT_NAME`}}",
 
       "iso_urls": [
          "{{user `ISO_PREFIX_LOCAL`}}/{{user `ISO_FILENAME`}}",
@@ -119,6 +122,8 @@
         ["modifyvm", "{{.Name}}", "--cpus", "{{user `PACKER_CPU`}}"],
         ["modifyvm", "{{.Name}}", "--vram", "16"]
       ],
+      "output_directory": "./packer-output/{{user `OUTPUT_NAME`}}",
+      "vm_name": "{{user `OUTPUT_NAME`}}",
       "export_opts": [
          "--vsys", "0",
          "--product", "{{user `META_NAME`}}",
@@ -186,7 +191,7 @@
       "type": "vagrant",
       "compression_level": 9,
       "keep_input_artifact": true,
-      "output": "boxes/{{.Provider}}/{{user `OUTPUT_NAME`}}.box"
+      "output": "vagrant-boxes/{{user `OUTPUT_NAME`}}.box"
     }
   ]
 }

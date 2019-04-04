@@ -62,9 +62,9 @@ find /var/log -iname "*.gz" | xargs rm -f || :
 
 # clean up temp
 find /tmp ! -fstype vboxsf -type f -print0 | xargs -0 rm
-find /tmp ! -fstype vboxsf -type d -empty -delete
-test -d /tmp || mkdir /tmp
-chmod 0777 /tmp
+find /tmp ! -fstype vboxsf -mindepth 1 -type d -empty -delete
+#test -d /tmp || mkdir /tmp
+#chmod 0777 /tmp
 
 # remove dummy logical volume
 ifapt lvremove -f /dev/vg/lv_autofill || :

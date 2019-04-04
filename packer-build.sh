@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-#set -x
+set -x
 
 PATH_JSON=./templates
 PATH_OS=${PATH_JSON:?}/os
@@ -67,7 +67,7 @@ function help_hyperv() {
   echo    "    virtualbox"
   echo    "    vmware"
   echo    "    qemu"
-  echo    "    iso2azure"
+  echo    "    azure"
   return 1
 }
 
@@ -143,23 +143,24 @@ elif (test ${BUILDER:?} == "vmware"); then
 elif (test ${BUILDER:?} == "qemu"); then
   PACKER_BUILDER="qemu"
   HYPERVISOR_INIT="true"
-elif (test ${BUILDER:?} == "iso2azure"); then
+elif (test ${BUILDER:?} == "azure"); then
   PACKER_BUILDER="qemu"
   HYPERVISOR_INIT="init-azure.sh"
   HYPERVISOR_CLEANUP="cleanup-vagrant.sh && cleanup-azure.sh"
+  EXCEPT_VAGRANT="-except=vagrant"
 else
   help_hyperv "Unsupported hypervisor (\"${BUILDER:?}\")" || exit -1
 fi
 
 # extra parameters for Jenkins runs
-test ! -z "$(which xset)" && xset q > /dev/null && EXTRA="-on-error=ask" || PACKER_NO_COLOR=1 && PACKER_LOG=1 && EXTRA="-var HEADLESS=true"
+test ! -z "$(which xset)" && xset q > /dev/null && EXTRA="-on-error=ask" || [[ PACKER_NO_COLOR=1 && PACKER_LOG=1 && EXTRA="-var HEADLESS=true" ]]
 
-# use packer to build box with default output file name is ${OS}; specify BOX_NAME before running this script if you want to override
+# use packer to build box with default output file name is ${OS_NAME}-${KICKSTART_NAME}; specify BOX_NAME before running this script if you want to override
 OS_NAME=$(cat ${OS_FULL:?} | jq ".ISO_FILENAME" | tr -d '"')
 OS_NAME=${OS_NAME%.iso}
 KICKSTART_NAME=$(basename ${KICKSTART:?})
 KICKSTART_NAME=${KICKSTART_NAME%.cfg}
-export BOX_NAME=${BOX_NAME:-${OS_NAME}-${KICKSTART_NAME:?}}
+export BOX_NAME=${BOX_NAME:-${BUILDER:?}-${OS_NAME}-${KICKSTART_NAME:?}}
 
 # build the VM image using packer
 packer build \
@@ -173,28 +174,32 @@ packer build \
   -var-file=${MACHINE_TYPE:?} \
   -var-file=${OS_FULL:?} \
   -only="${PACKER_BUILDER:?}" \
+  ${EXCEPT_VAGRANT} \
   "${TEMPLATE:?}"
 
 # hypervisor specific postprocessing
-if (test ${BUILDER:?} == "iso2azure"); then
+if (test ${BUILDER:?} == "azure"); then
+  qemu-img convert -o subformat=fixed -O vpc ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.qcow2 ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.vhd
   # prepare VHD file for azure
-  TMP_VHD=/tmp/azure-vhd
-  rm -rf ${TMP_VHD}
-  mkdir -p ${TMP_VHD}/unzipped
-  ln -s $(realpath ./boxes/libvirt/${BOX_NAME:?}.box) ${TMP_VHD}/box.tar.gz
-  tar -C ${TMP_VHD}/unzipped -xzvf ${TMP_VHD}/box.tar.gz
-  VHD=./boxes/azure/${BOX_NAME:?}.vhd
-  mkdir -p $(dirname ${VHD:?})
-  rm -f ${VHD:?}
-  VBoxManage clonehd ${TMP_VHD}/unzipped/*vmdk ${VHD:?} --format VHD --variant Fixed
-  rm -rf ${TMP_VHD}
-else
-  # vagrant add box
-  mkdir -p ./boxes/${BUILDER:?}
-  vagrant box add -f --name ${BOX_NAME:?} ./boxes/${BUILDER:?}/${BOX_NAME:?}.box
+  #TMP_VHD=/tmp/azure-vhd
+  #rm -rf ${TMP_VHD}
+  #mkdir -p ${TMP_VHD}/unzipped
+  #ln -s $(realpath ./vagrant-boxes/libvirt/${BOX_NAME:?}.box) ${TMP_VHD}/box.tar.gz
+  #tar -C ${TMP_VHD}/unzipped -xzvf ${TMP_VHD}/box.tar.gz
+  #VHD=./vagrant-boxes/azure/${BOX_NAME:?}.vhd
+  #mkdir -p $(dirname ${VHD:?})
+  #rm -f ${VHD:?}
+  #if (test ! -z $(which VBoxManage)); then
+  #  VBoxManage clonehd ${TMP_VHD}/unzipped/*vmdk ${VHD:?} --format VHD --variant Fixed
+  #else
+  #  qemu-img convert -o subformat=fixed -O vpc ${TMP_VHD}/unzipped/*img ${VHD:?}
+  #fi
+  #rm -rf ${TMP_VHD}
 fi
 
-# in case we build a VirtualBox image outside of Jenkins, also make the box available for libvirt builder
-[ $? -eq 0 ] && [ ! -z ${JENKINS_URL} ] && exit 0
-[ $? -eq 0 ] && [ ${BUILDER:?} == "virtualbox" ] && vagrant mutate ./boxes/${BUILDER}/${BOX_NAME}.box libvirt
+# vagrant box add
+#if (test -z "${EXCEPT_VAGRANT}" -a ! -z "$(which vagrant)"); then
+#  mkdir -p ./vagrant-boxes
+#  vagrant box add -f --name ${BOX_NAME:?} ./vagrant-boxes/${BOX_NAME:?}.box
+#fi
 

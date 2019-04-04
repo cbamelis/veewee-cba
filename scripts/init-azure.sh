@@ -124,9 +124,9 @@ EOF
   rm -rf /var/lib/cloud
   
   # install azure cli
-  rpm --import https://packages.microsoft.com/keys/microsoft.asc
-  sudo sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
-  ensure_packages azure-cli
+  #rpm --import https://packages.microsoft.com/keys/microsoft.asc
+  #sudo sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+  #ensure_packages azure-cli
 
   # install aws cli
   ensure_packages python-pip
