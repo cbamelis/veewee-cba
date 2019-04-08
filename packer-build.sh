@@ -153,7 +153,10 @@ else
 fi
 
 # extra parameters for Jenkins runs
-test ! -z "$(which xset)" && xset q > /dev/null && EXTRA="-on-error=ask" || [[ PACKER_NO_COLOR=1 && PACKER_LOG=1 && EXTRA="-var HEADLESS=true" ]]
+export PACKER_LOG=1
+export PACKER_NO_COLOR=1
+EXTRA="-var HEADLESS=true"
+test ! -z "$(which xset)" && xset q > /dev/null && unset PACKER_NO_COLOR && EXTRA="-on-error=ask" || :
 
 # use packer to build box with default output file name is ${OS_NAME}-${KICKSTART_NAME}; specify BOX_NAME before running this script if you want to override
 OS_NAME=$(cat ${OS_FULL:?} | jq ".ISO_FILENAME" | tr -d '"')
@@ -165,7 +168,7 @@ export BOX_NAME=${BOX_NAME:-${BUILDER:?}-${OS_NAME}-${KICKSTART_NAME:?}}
 # build the VM image using packer
 packer build \
   -force \
-  ${EXTRA} \
+  ${EXTRA:?} \
   -var EXTRA_SCRIPTS="${EXTRA_SCRIPTS:-true}" \
   -var HYPERVISOR_INIT="${HYPERVISOR_INIT:-true}" \
   -var HYPERVISOR_CLEANUP="${HYPERVISOR_CLEANUP:-true}" \
@@ -179,7 +182,7 @@ packer build \
 
 # hypervisor specific postprocessing
 if (test ${BUILDER:?} == "azure"); then
-  qemu-img convert -o subformat=fixed -O vpc ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.qcow2 ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.vhd
+  qemu-img convert -o subformat=fixed,force_size -O vpc ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.qcow2 ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.vhd
   # prepare VHD file for azure
   #TMP_VHD=/tmp/azure-vhd
   #rm -rf ${TMP_VHD}
