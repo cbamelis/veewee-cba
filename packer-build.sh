@@ -1,13 +1,17 @@
 #!/bin/bash
 
+# exit on error
 set -e
-set -x
 
+# if user wants detailed packer output (by setting PACKER_LOG), then also
+# increase verbosity of this script
+test ! -z "${PACKER_LOG}" && test ${PACKER_LOG} -ne 0 && env | sort && set -x || set +x
+
+# defaults
 PATH_JSON=./templates
 PATH_OS=${PATH_JSON:?}/os
 PATH_MACHINES=${PATH_JSON:?}/machines
 PATH_KICKSTART=./kickstart
-DEFAULT_MACHINE_TYPE=small
 
 function help_templates() {
   local MSG=$1
@@ -75,12 +79,7 @@ function help() {
   local MSG=$1
   echo -e "${MSG:?}"
   echo "Usage:"
-  echo "  $0 <packer_template> <kickstart> [<machine_type> <operating_system> <hypervisor>]"
-  echo ""
-  echo "  The last 3 parameters can be omitted in case of running $0 from Jenkins"
-  echo "    - <machine_type> will default to \"${DEFAULT_MACHINE_TYPE:?}\""
-  echo "    - <operating_system> and <hypervisor> will be parsed from the Jenkins JOB_NAME"
-  echo "      which is assumed to follow naming convention <operating_system>-<hypervisor>"
+  echo "  $0 <packer_template> <kickstart> <machine_type> <operating_system> <hypervisor>"
   echo ""
   help_templates "\n  <packer_template> is a JSON packer template; currently supported" ||
   help_kickstart "\n  <kickstart> is a kickstart/preseed file containing all answers for unattended OS installation; currently supported" ||
@@ -92,9 +91,7 @@ function help() {
 }
 
 # check command line parameters; print help if incorrect
-[ $# -lt 2 ] && help "\nNot enough command line parameters!\n"
-[ $# -eq 2 ] && [ -z ${JOB_NAME} ] && help "\nNot enough command line parameters (or Jenkins variable JOB_NAME not found)!\n"
-[ $# -gt 5 ] && help "\nToo much command line parameters!\n"
+[ $# -ne 5 ] && help "\nExpected 5 command line parameters!\n"
 
 # verify parameter packer_template
 TEMPLATE=$1
@@ -109,31 +106,19 @@ test -f ${PATH_KICKSTART:?}/${KICKSTART:?} || help_kickstart "\nUnable to find t
 shift
 
 # verify parameter machine_type
-[ $# -eq 0 ] && MACHINE_TYPE=${DEFAULT_MACHINE_TYPE:?}
-[ $# -gt 0 ] && MACHINE_TYPE=$1 && shift
+MACHINE_TYPE=$1
 test -f ${MACHINE_TYPE:?} || MACHINE_TYPE=${PATH_MACHINES:?}/${MACHINE_TYPE:?}.json
 test -f ${MACHINE_TYPE:?} || help_machines "\nUnable to find the given machine_type (\"${MACHINE_TYPE:?}\")" || exit -1
+shift
 
-# parameters operating_system and hypervisor
-if ([ $# -eq 0 ] && test ! -z ${JOB_NAME}); then
-  # fetch os and hypervisor from jenkins job name
-  JOB_NAME_AS_ARRAY=(${JOB_NAME//-/ })  # replace dash by space; split into array
-  TOKEN_COUNT=${#JOB_NAME_AS_ARRAY[@]}
-  LAST_TOKEN_INDEX=$(expr ${TOKEN_COUNT} - 1)
-  BUILDER=${JOB_NAME_AS_ARRAY[${LAST_TOKEN_INDEX}]}
-  CMD_EXTRA=" -force -machine-readable -var HEADLESS=true"
-  OS=${JOB_NAME%-${BUILDER}}
-else
-  OS=$1
-  BUILDER=$2
-  JOB_NAME=${OS:?}-${BUILDER:?}
-fi
-
-# verify parameter os
+# verify parameter operating_system
+OS=$1
 OS_FULL=${PATH_OS:?}/${OS:?}.json
 test -f ${OS_FULL:?} || help_os "Unable to find the given operating_system (\"${OS:?}\")" || exit -1
+shift
 
-# hypervisor specific configuration
+# veryfiy parameter hypervisor
+BUILDER=$1
 if (test ${BUILDER:?} == "virtualbox"); then
   PACKER_BUILDER="virtualbox-iso"
   HYPERVISOR_INIT="init-virtualbox.sh"
@@ -151,14 +136,13 @@ elif (test ${BUILDER:?} == "azure"); then
 else
   help_hyperv "Unsupported hypervisor (\"${BUILDER:?}\")" || exit -1
 fi
+shift
 
-# extra parameters for Jenkins runs
-export PACKER_LOG=1
-export PACKER_NO_COLOR=1
+# check if we need to run headless
 EXTRA="-var HEADLESS=true"
-test ! -z "$(which xset)" && xset q > /dev/null && unset PACKER_NO_COLOR && EXTRA="-on-error=ask" || :
+test ! -z "$(which xset)" && xset q > /dev/null && EXTRA="-on-error=ask" || :
 
-# use packer to build box with default output file name is ${OS_NAME}-${KICKSTART_NAME}; specify BOX_NAME before running this script if you want to override
+# use packer to build box with default output file name; specify BOX_NAME before running this script if you want to override
 OS_NAME=$(cat ${OS_FULL:?} | jq ".ISO_FILENAME" | tr -d '"')
 OS_NAME=${OS_NAME%.iso}
 KICKSTART_NAME=$(basename ${KICKSTART:?})
@@ -180,29 +164,10 @@ packer build \
   ${EXCEPT_VAGRANT} \
   "${TEMPLATE:?}"
 
-# hypervisor specific postprocessing
+# hypervisor specific logging
 if (test ${BUILDER:?} == "azure"); then
-  qemu-img convert -o subformat=fixed,force_size -O vpc ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.qcow2 ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.vhd
-  # prepare VHD file for azure
-  #TMP_VHD=/tmp/azure-vhd
-  #rm -rf ${TMP_VHD}
-  #mkdir -p ${TMP_VHD}/unzipped
-  #ln -s $(realpath ./vagrant-boxes/libvirt/${BOX_NAME:?}.box) ${TMP_VHD}/box.tar.gz
-  #tar -C ${TMP_VHD}/unzipped -xzvf ${TMP_VHD}/box.tar.gz
-  #VHD=./vagrant-boxes/azure/${BOX_NAME:?}.vhd
-  #mkdir -p $(dirname ${VHD:?})
-  #rm -f ${VHD:?}
-  #if (test ! -z $(which VBoxManage)); then
-  #  VBoxManage clonehd ${TMP_VHD}/unzipped/*vmdk ${VHD:?} --format VHD --variant Fixed
-  #else
-  #  qemu-img convert -o subformat=fixed -O vpc ${TMP_VHD}/unzipped/*img ${VHD:?}
-  #fi
-  #rm -rf ${TMP_VHD}
+  echo "Created Azure compatible VM image: ./packer-output/${BOX_NAME:?}/${BOX_NAME:?}.qcow2 (needs conversion to fixed size VHD)"
+else
+  echo "Created ${BUILDER:?} vagrant box: ./vagrant-boxes/${BOX_NAME:?}.box"
 fi
-
-# vagrant box add
-#if (test -z "${EXCEPT_VAGRANT}" -a ! -z "$(which vagrant)"); then
-#  mkdir -p ./vagrant-boxes
-#  vagrant box add -f --name ${BOX_NAME:?} ./vagrant-boxes/${BOX_NAME:?}.box
-#fi
 
