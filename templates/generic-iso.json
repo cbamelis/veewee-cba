@@ -13,6 +13,7 @@
     "META_URL": "{{env `BUILD_URL`}}",
 
     "OS_TYPE": null,
+    "DISPLAY_NAME": null,
     "OUTPUT_NAME": null,
     "ISO_FILENAME": null,
     "ISO_CHECKSUM_TYPE": null,
