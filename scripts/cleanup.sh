@@ -90,7 +90,7 @@ function zeroDisk() {
     echo "Blanking swap space..."
     swapoff ${SWAPPART}
     test -f ${SWAPPART} && rm -f ${SWAPPART} && continue || :
-    dd if=/dev/zero of=${SWAPPART} bs=10M
+    dd if=/dev/zero of=${SWAPPART} bs=10M || echo "Disk full"
     mkswap ${SWAPPART}
 
     # update swap space UUID in /etc/fstab
