@@ -144,7 +144,7 @@ EOF
 
   # CBA note: I'm still not sure, but the only kernels where Lsv2 NVMe storage is visible,
   # seem to have a pci-hyperv kernel module
-  modprobe pci-hyperv || echo "NVMe storage of Azure Lsv2 SKU will not work by lack of pci-hyperv kernel module" && exit -1
+  modinfo pci-hyperv || echo "NVMe storage of Azure Lsv2 SKU will not work by lack of pci-hyperv kernel module" && exit -1
 
   # rebuild initrd
   echo "add_drivers+=\" hv_vmbus hv_netvsc hv_storvsc pci_hyperv \"" >> /etc/dracut.conf
