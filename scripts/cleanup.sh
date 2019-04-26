@@ -82,6 +82,8 @@ function zeroDisk() {
   done
 
   # blank swap partitions
+  SWAP_COUNT=$(cat /proc/swaps | tail -n +2 | wc -l)
+  test ${SWAP_COUNT} -eq 0 && return 0
   for SWAPPART in $(cat /proc/swaps | tail -n +2 | awk '{print $1}'); do
     # remember UUID of swap partition
     OLD_UUID=`blkid ${SWAPPART} -s UUID -o value`
@@ -100,7 +102,7 @@ function zeroDisk() {
   done
 }
 
-zeroDisk || :
+zeroDisk
 
 # list installed packages
 echo "Installed packages:"
