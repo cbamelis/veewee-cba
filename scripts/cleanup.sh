@@ -9,8 +9,8 @@ rm -f /home/packer/VBoxGuestAdditions*.iso
 
 # remove traces of mac address from network configuration
 UDEV_NET=/etc/udev/rules.d/70-persistent-net.rules
-test -d ${UDEV_NET} || rm -rf ${UDEV_NET}
-test -d ${UDEV_NET} || mkdir -p ${UDEV_NET}
+test -f ${UDEV_NET} && rm -rf ${UDEV_NET}
+#test -d ${UDEV_NET} || mkdir -p ${UDEV_NET}
 el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /HWADDR/d {} \; || :
 el find /etc/sysconfig/network-scripts -name "ifcfg-eth*" -exec sed -i /UUID/d {} \; || :
 
@@ -35,7 +35,7 @@ function el_remove_old_kernels() {
   is_package_installed kernel-ml && remove_packages kernel || :
   ensure_packages yum-utils
   package-cleanup -y --oldkernels --count=1
-  remove_packages yum-utils
+  #remove_packages yum-utils
 }
 function apt_remove_old_kernels() {
   dpkg --list 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs apt-get -y purge
@@ -109,4 +109,3 @@ echo "Disk space after cleanup:"
 df -h
 el echo "Service enablement" || :
 el chkconfig --list || :
-
