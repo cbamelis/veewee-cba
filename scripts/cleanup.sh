@@ -100,7 +100,7 @@ function zeroDisk() {
   done
 }
 
-zeroDisk
+zeroDisk || :
 
 # list installed packages
 echo "Installed packages:"
