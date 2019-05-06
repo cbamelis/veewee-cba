@@ -38,7 +38,8 @@ function el_remove_old_kernels() {
   #remove_packages yum-utils
 }
 function apt_remove_old_kernels() {
-  dpkg --list 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs apt-get -y purge
+  #dpkg --list 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs apt-get -y purge
+  apt-mark showauto 'linux-*' | grep -v "$(uname -r)$" | xargs apt-get -fy purge
 }
 el el_remove_old_kernels || ifapt apt_remove_old_kernels || :
 
