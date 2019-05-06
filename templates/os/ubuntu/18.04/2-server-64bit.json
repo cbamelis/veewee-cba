@@ -1,10 +1,11 @@
 {
   "OS_TYPE": "Ubuntu_64",
+  "DISPLAY_NAME": "Ubuntu-1804-x64",
   "ISO_FILENAME": "ubuntu-18.04.2-server-amd64.iso",
   "ISO_CHECKSUM_TYPE": "sha256",
   "ISO_CHECKSUM": "a2cb36dc010d98ad9253ea5ad5a07fd6b409e3412c48f1860536970b073c98f5",
   "ISO_PREFIX_LOCAL": "iso/Ubuntu",
-  "ISO_PREFIX_URL": "http://cdimage.ubuntu.com/ubuntu/releases/bionic/release/",
+  "ISO_PREFIX_URL": "http://cdimage.ubuntu.com/ubuntu/releases/bionic/release",
   "BOOT_COMMAND": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>/install/vmlinuz initrd=/install/initrd.gz noapic auto fb=false hostname=localhost locale=en_US debian-installer=en_US console-setup/ask_detect=false console-setup/layoutcode=us keymap=us tasks=server preseed/url=",
   "BOOT_COMMAND_EXTRA": "--"
 }
