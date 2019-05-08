@@ -5,6 +5,9 @@ source common.sh
 
 #el http_package_install http://repository.it4i.cz/mirrors/repoforge/redhat/el6/en/x86_64/rpmforge/RPMS rpmforge-release-0.5.3-1.el${OS_MAJOR_VERSION}.rf.${ARCH}.rpm || :
 EPEL_URL=https://dl.fedoraproject.org/pub/epel
+el6 rpm --import ${EPEL_URL}/RPM-GPG-KEY-EPEL-6 || \
+el7 rpm --import ${EPEL_URL}/RPM-GPG-KEY-EPEL-7 || \
+:
 el6 http_package_install ${EPEL_URL} epel-release-latest-6.noarch.rpm || \
 el7 http_package_install ${EPEL_URL} epel-release-latest-7.noarch.rpm || \
 ifapt add-apt-repository universe || :
