@@ -13,14 +13,14 @@ ifapt apt-get -y update || :
 
 ########## install base tools ##########
 
-ifapt ensure_packages  htop wget curl rsync ca-certificates man-db vim x11-apps || \
-el    ensure_packages  htop wget curl rsync ca-certificates man vim-enhanced
+ifapt ensure_packages  htop wget curl inotify-tools rsync ca-certificates man-db vim x11-apps || \
+el    ensure_packages  htop wget curl inotify-tools rsync ca-certificates man vim-enhanced
 
 # validate by showing installed package versions
-   echo -en 'htop  version : ' && htop  --version \
-&& echo -en 'wget  version : ' && wget  --version \
-&& echo -en 'curl  version : ' && curl  --version \
-&& echo -en 'rsync version : ' && rsync --version \
-&& echo -en 'man   version : ' && man   --version \
-&& echo -en 'vim   version : ' && vim   --version
-
+   echo -en 'htop    version : ' && htop  --version \
+&& echo -en 'wget    version : ' && wget  --version \
+&& echo -en 'inotify version : ' && inotifywait --help | head -1 \
+&& echo -en 'curl    version : ' && curl  --version \
+&& echo -en 'rsync   version : ' && rsync --version \
+&& echo -en 'man     version : ' && man   --version \
+&& echo -en 'vim     version : ' && vim   --version
